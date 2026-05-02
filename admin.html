@@ -795,196 +795,19 @@
       }
     }
 
-    /* ── MODAL CLOSE BTN ── */
-    .modal-close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(20,10,3,0.55);
-      color: rgba(217,201,176,0.8);
-      font-size: 0.7rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(4px);
-      transition: all 0.2s;
-      z-index: 10;
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
     }
-    .modal-close-btn:hover { background: rgba(180,80,80,0.7); border-color: transparent; color: #fff; }
 
-    /* ── MODAL TABS — 3 tabs now ── */
-    .modal-tabs {
-      display: flex;
-      gap: 0;
-      border: 1px solid rgba(184,146,74,0.25);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 18px;
-    }
-    .modal-tab {
-      flex: 1;
-      padding: 9px 6px;
-      font-family: 'Cinzel', serif;
-      font-size: 0.58rem;
-      letter-spacing: 0.12em;
-      border: none;
+    ::-webkit-scrollbar-track {
       background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-    }
-    .modal-tab.active { background: var(--gold); color: var(--white); }
-    .modal-tab:not(.active):hover { background: rgba(184,146,74,0.08); color: var(--gold); }
-
-    /* ── FIELD STYLES ── */
-    .field-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-bottom: 14px;
-    }
-    .field-row {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-    .field-row .field-group { margin-bottom: 0; }
-    .field-label {
-      font-family: 'Lato', sans-serif;
-      font-weight: 300;
-      font-size: 0.62rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .field-input {
-      width: 100%;
-      padding: 10px 13px;
-      border: 1px solid rgba(184,146,74,0.28);
-      border-radius: 10px;
-      background: var(--beige);
-      font-family: 'Lato', sans-serif;
-      font-size: 0.82rem;
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .field-input:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(184,146,74,0.1);
-    }
-    .field-textarea {
-      resize: vertical;
-      min-height: 72px;
-      line-height: 1.6;
-    }
-    .field-select {
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a6040' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      cursor: pointer;
     }
 
-    /* ── CHANGED INDICATOR on card ── */
-    .item-card.has-details-change::before {
-      content: '✎';
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      width: 20px;
-      height: 20px;
-      background: rgba(184,146,74,0.85);
-      color: #fff;
-      border-radius: 50%;
-      font-size: 0.6rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2;
+    ::-webkit-scrollbar-thumb {
+      background: rgba(184, 146, 74, 0.3);
+      border-radius: 3px;
     }
-
-    /* ── DELETE BUTTON on card ── */
-    .card-delete-btn {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      border: 1px solid rgba(200,60,60,0.5);
-      background: rgba(20,10,3,0.7);
-      color: rgba(220,100,100,0.9);
-      font-size: 0.65rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 5;
-      opacity: 0;
-      transition: opacity 0.2s, background 0.2s, color 0.2s;
-      backdrop-filter: blur(4px);
-    }
-    .item-card:hover .card-delete-btn { opacity: 1; }
-    .card-delete-btn:hover { background: rgba(180,50,50,0.85); color: #fff; border-color: transparent; }
-
-    /* ── ADDED ITEM badge ── */
-    .item-card.is-added { border-color: rgba(100,160,220,0.45); }
-    .item-card.is-added::after { content: '+'; background: rgba(60,110,180,0.85); }
-
-    /* ── ADD ITEM button per section ── */
-    .add-item-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      width: 100%;
-      padding: 14px;
-      border: 1.5px dashed rgba(184,146,74,0.3);
-      border-radius: 14px;
-      background: transparent;
-      color: var(--muted);
-      font-family: 'Cinzel', serif;
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      cursor: pointer;
-      transition: all 0.25s;
-      margin-top: 4px;
-    }
-    .add-item-btn:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      background: rgba(184,146,74,0.05);
-    }
-
-    /* ── Modal mode indicator ── */
-    .modal-mode-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: 'Cinzel', serif;
-      font-size: 0.58rem;
-      letter-spacing: 0.18em;
-      padding: 4px 10px;
-      border-radius: 50px;
-      margin-bottom: 10px;
-    }
-    .modal-mode-badge.mode-edit  { background: rgba(184,146,74,0.12); color: var(--gold); }
-    .modal-mode-badge.mode-add   { background: rgba(60,110,180,0.12); color: #6a9fd8; }
-    .modal-mode-badge.mode-delete{ background: rgba(180,60,60,0.12);  color: #d88080; }
-
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(184,146,74,0.3); border-radius: 3px; }
   </style>
 </head>
 
@@ -995,7 +818,7 @@
     <div class="header-brand">
       <div class="header-brand-dot"></div>
       <span class="header-title">Athar</span>
-      <span class="header-sub">Menu Manager</span>
+      <span class="header-sub">Menu Image Manager</span>
     </div>
     <div class="header-actions">
       <div class="live-badge">
@@ -1028,109 +851,51 @@
   <!-- ITEM MODAL -->
   <div class="modal-bg" id="modalBg" onclick="handleModalBgClick(event)">
     <div class="modal" id="modal">
-
-      <!-- Image preview strip -->
       <div class="modal-preview" id="modalPreview">
         <div class="modal-preview-placeholder" id="modalPreviewPlaceholder">No Image</div>
         <img id="modalPreviewImg" src="" alt="" style="display:none;">
-        <!-- close btn -->
-        <button class="modal-close-btn" onclick="closeModal()" title="Close">✕</button>
       </div>
-
       <div class="modal-body">
-        <div class="modal-mode-badge mode-edit" id="modalModeBadge">✎ Edit Item</div>
         <p class="modal-eyebrow" id="modalCat"></p>
-
-        <!-- Section tabs -->
+        <h2 class="modal-title" id="modalName"></h2>
         <div class="modal-tabs">
-          <button class="modal-tab active" onclick="switchTab('details')">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            Details
-          </button>
-          <button class="modal-tab" onclick="switchTab('upload')">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Upload
-          </button>
-          <button class="modal-tab" onclick="switchTab('url')">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            URL
-          </button>
+          <button class="modal-tab active" onclick="switchTab('upload')">Upload File</button>
+          <button class="modal-tab" onclick="switchTab('url')">Image URL</button>
         </div>
 
-        <!-- ── DETAILS TAB ── -->
-        <div class="tab-panel active" id="tab-details">
-          <div class="field-group">
-            <label class="field-label" for="editName">Item Name</label>
-            <input type="text" id="editName" class="field-input" placeholder="e.g. Espresso">
-          </div>
-          <div class="field-group">
-            <label class="field-label" for="editDesc">Description</label>
-            <textarea id="editDesc" class="field-input field-textarea" placeholder="A short description…" rows="3"></textarea>
-          </div>
-          <div class="field-row">
-            <div class="field-group" style="flex:1">
-              <label class="field-label" for="editPrice">Price</label>
-              <input type="text" id="editPrice" class="field-input" placeholder="e.g. 85 EGP">
-            </div>
-            <div class="field-group" style="flex:1">
-              <label class="field-label" for="editCat">Category</label>
-              <select id="editCat" class="field-input field-select">
-                <option value="Hot Drinks">Hot Drinks</option>
-                <option value="Iced Coffee">Iced Coffee</option>
-                <option value="Coffee Blended">Coffee Blended</option>
-                <option value="Non-Coffee Blended">Non-Coffee Blended</option>
-                <option value="Milkshakes">Milkshakes</option>
-                <option value="Fresh Juice">Fresh Juice</option>
-                <option value="Refreshers">Refreshers</option>
-                <option value="Matcha">Matcha</option>
-                <option value="Tea">Tea</option>
-                <option value="Breakfast">Breakfast</option>
-                <option value="Desserts">Desserts</option>
-                <option value="Extras">Extras</option>
-              </select>
-            </div>
-          </div>
-          <div class="modal-actions" id="detailsActions">
-            <button class="btn-apply" id="btnSaveDetails" onclick="applyDetails()">Save Details</button>
-            <button class="btn-clear" id="btnResetDetails" onclick="clearDetails()">Reset</button>
-            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-          </div>
-        </div>
-
-        <!-- ── UPLOAD TAB ── -->
-        <div class="tab-panel" id="tab-upload">
+        <!-- Upload tab -->
+        <div class="tab-panel active" id="tab-upload">
           <div class="upload-zone" id="uploadZone">
             <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)">
             <div class="upload-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="17 8 12 3 7 8"/>
-                <line x1="12" y1="3" x2="12" y2="15"/>
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
               </svg>
             </div>
             <p>Drop image here or click to browse</p>
             <span>JPG, PNG, WEBP — any size</span>
           </div>
-          <div class="modal-actions">
-            <button class="btn-apply" id="btnApply" onclick="applyImage()">Save Image</button>
-            <button class="btn-clear" onclick="clearImage()">Remove Image</button>
-            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+          <div class="filename-wrap">
+            <label class="filename-label" for="filenameInput">Save as filename</label>
+            <input type="text" id="filenameInput" placeholder="espresso.jpg" />
           </div>
         </div>
 
-        <!-- ── URL TAB ── -->
+        <!-- URL tab -->
         <div class="tab-panel" id="tab-url">
           <div class="url-input-wrap">
             <input type="text" id="urlInput" placeholder="https://images.unsplash.com/…" oninput="previewUrl()">
           </div>
           <p class="url-preview-note">Paste any image URL — Unsplash, your CDN, or a direct link.</p>
-          <div class="modal-actions">
-            <button class="btn-apply" onclick="applyImage()">Save Image</button>
-            <button class="btn-clear" onclick="clearImage()">Remove Image</button>
-            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-          </div>
         </div>
 
+        <div class="modal-actions">
+          <button class="btn-apply" id="btnApply" onclick="applyImage()">Apply Image</button>
+          <button class="btn-clear" onclick="clearImage()">Remove</button>
+          <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1492,82 +1257,56 @@
       },
     ];
 
-    // ─── IndexedDB SETUP ───
-    const DB_NAME    = "athar_db";
-    const DB_STORE   = "image_overrides";
-    const DB_DETAILS = "item_overrides";   // name / desc / price changes
-    const DB_ADDED   = "added_items";      // new items created in admin
-    const DB_DELETED = "deleted_items";    // items deleted in admin
-    const DB_VERSION = 3;
-    let db = null;
+    // ─── FIREBASE SETUP ───
+    // 👇 REPLACE these values with your own Firebase project config
+    const FIREBASE_DB_URL = "https://athar-menu-default-rtdb.firebaseio.com";
+    const FIREBASE_PATH = "image_overrides";
 
-    function openDB() {
-      return new Promise((resolve, reject) => {
-        if (db) { resolve(db); return; }
-        const req = indexedDB.open(DB_NAME, DB_VERSION);
-        req.onupgradeneeded = e => {
-          const d = e.target.result;
-          if (!d.objectStoreNames.contains(DB_STORE))   d.createObjectStore(DB_STORE);
-          if (!d.objectStoreNames.contains(DB_DETAILS)) d.createObjectStore(DB_DETAILS);
-          if (!d.objectStoreNames.contains(DB_ADDED))   d.createObjectStore(DB_ADDED);
-          if (!d.objectStoreNames.contains(DB_DELETED)) d.createObjectStore(DB_DELETED);
-        };
-        req.onsuccess = e => { db = e.target.result; resolve(db); };
-        req.onerror = () => reject(req.error);
+    function firebaseUrl(key) {
+      const encoded = key ? encodeURIComponent(key).replace(/%3A/g, ":").replace(/%20/g, " ") : "";
+      // Firebase keys can't contain . # $ [ ]  — encode them
+      const safeKey = key ? key.replace(/\./g, "%2E").replace(/#/g, "%23").replace(/\$/g, "%24").replace(/\[/g, "%5B").replace(/\]/g, "%5D") : "";
+      return `${FIREBASE_DB_URL}/${FIREBASE_PATH}${safeKey ? "/" + safeKey : ""}.json`;
+    }
+
+    async function dbGet(key) {
+      const res = await fetch(firebaseUrl(key));
+      if (!res.ok) throw new Error("Firebase read failed");
+      const val = await res.json();
+      return val ?? null;
+    }
+
+    async function dbSet(key, value) {
+      const res = await fetch(firebaseUrl(key), {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(value)
       });
+      if (!res.ok) throw new Error("Firebase write failed");
     }
 
-    // ── generic helpers (store-agnostic) ──
-    function storeGet(storeName, key) {
-      return openDB().then(db => new Promise((resolve, reject) => {
-        const req = db.transaction(storeName, "readonly").objectStore(storeName).get(key);
-        req.onsuccess = () => resolve(req.result ?? null);
-        req.onerror  = () => reject(req.error);
-      }));
-    }
-    function storeSet(storeName, key, value) {
-      return openDB().then(db => new Promise((resolve, reject) => {
-        const req = db.transaction(storeName, "readwrite").objectStore(storeName).put(value, key);
-        req.onsuccess = () => resolve();
-        req.onerror  = () => reject(req.error);
-      }));
-    }
-    function storeDelete(storeName, key) {
-      return openDB().then(db => new Promise((resolve, reject) => {
-        const req = db.transaction(storeName, "readwrite").objectStore(storeName).delete(key);
-        req.onsuccess = () => resolve();
-        req.onerror  = () => reject(req.error);
-      }));
-    }
-    function storeGetAll(storeName) {
-      return openDB().then(db => new Promise((resolve, reject) => {
-        const store = db.transaction(storeName, "readonly").objectStore(storeName);
-        const keys = [], values = [];
-        const cursorReq = store.openCursor();
-        cursorReq.onsuccess = e => {
-          const cursor = e.target.result;
-          if (cursor) { keys.push(cursor.key); values.push(cursor.value); cursor.continue(); }
-          else { const obj = {}; keys.forEach((k,i) => obj[k] = values[i]); resolve(obj); }
-        };
-        cursorReq.onerror = () => reject();
-      }));
-    }
-    function storeClear(storeName) {
-      return openDB().then(db => new Promise((resolve, reject) => {
-        const req = db.transaction(storeName, "readwrite").objectStore(storeName).clear();
-        req.onsuccess = () => resolve();
-        req.onerror  = () => reject(req.error);
-      }));
+    async function dbDelete(key) {
+      const res = await fetch(firebaseUrl(key), { method: "DELETE" });
+      if (!res.ok) throw new Error("Firebase delete failed");
     }
 
-    // shorthand for image store (keeps old call sites working)
-    const dbGet    = (k)    => storeGet(DB_STORE, k);
-    const dbSet    = (k, v) => storeSet(DB_STORE, k, v);
-    const dbDelete = (k)    => storeDelete(DB_STORE, k);
-    const dbGetAll = ()     => storeGetAll(DB_STORE);
-    const dbClear  = ()     => storeClear(DB_STORE);
+    async function dbGetAll() {
+      const res = await fetch(firebaseUrl(""));
+      if (!res.ok) throw new Error("Firebase read failed");
+      const data = await res.json();
+      return data ?? {};
+    }
 
-    // Notify index.html of changes via localStorage flag
+    async function dbClear() {
+      const res = await fetch(firebaseUrl(""), {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(null)
+      });
+      if (!res.ok) throw new Error("Firebase clear failed");
+    }
+
+    // Notify other tabs/windows of changes
     function notifyIndexPage() {
       localStorage.setItem("athar_idb_updated", Date.now().toString());
     }
@@ -1588,21 +1327,17 @@
       "Extras": { bg: "#282010", accent: "#b8924a" },
     };
 
-    let overrides = {};        // image overrides  { key: imgSrc }
-    let detailOverrides = {};  // detail overrides { key: {name,desc,price,cat} }
-    let addedItems = {};       // added items      { key: {cat,name,desc,price,img} }
-    let deletedKeys = {};      // deleted item keys { key: true }
+    let overrides = {};
     let activeFilter = "All";
     let activeItem = null;
     let pendingDataUrl = null;
-    let activeTab = "details";
-    let modalMode = "edit";    // "edit" | "add"
-    let addingToCat = null;
+    let pendingFilename = null;
+    let activeTab = "upload";
 
     const categories = ["All", ...Object.keys(catColors)];
 
     // ─── INIT ───
-    async function _initBase() {
+    async function init() {
       overrides = await dbGetAll();
       buildCatFilter();
       renderGrid();
@@ -1626,52 +1361,28 @@
       const wrap = document.getElementById("gridWrap");
       const q = document.getElementById("searchInput").value.trim().toLowerCase();
 
-      // Merge added items into menuData view (not in base menuData)
-      const allItems = [
-        ...menuData.filter(i => !deletedKeys[itemKey(i)]),
-        ...Object.values(addedItems)
-      ];
-
-      let items = activeFilter === "All" ? allItems : allItems.filter(i => i.cat === activeFilter);
+      let items = activeFilter === "All" ? menuData : menuData.filter(i => i.cat === activeFilter);
       if (q) items = items.filter(i => `${i.name} ${i.cat} ${i.desc}`.toLowerCase().includes(q));
 
       document.getElementById("countBadge").textContent = `${items.length} item${items.length !== 1 ? "s" : ""}`;
 
-      // Group by category — preserve category order
-      const catOrder = [...Object.keys(catColors)];
+      if (!items.length) {
+        wrap.innerHTML = '<div class="menu-grid"><div class="empty-state">No items found.</div></div>';
+        return;
+      }
+
       const grouped = {};
       items.forEach(item => {
         if (!grouped[item.cat]) grouped[item.cat] = [];
         grouped[item.cat].push(item);
       });
 
-      // Also include empty categories (for add-only sections)
-      if (activeFilter !== "All") {
-        if (!grouped[activeFilter]) grouped[activeFilter] = [];
-      }
-
-      const sortedCats = Object.keys(grouped).sort((a, b) => {
-        const ai = catOrder.indexOf(a), bi = catOrder.indexOf(b);
-        return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
-      });
-
-      if (!sortedCats.length) {
-        wrap.innerHTML = '<div class="menu-grid"><div class="empty-state">No items found.</div></div>';
-        return;
-      }
-
-      wrap.innerHTML = sortedCats.map(cat => {
-        const catItems = grouped[cat] || [];
-        return `
-          <div class="grid-section-title">${cat} <span style="color:var(--sand);font-size:0.6rem;">${catItems.length}</span></div>
-          <div class="menu-grid">
-            ${catItems.map(item => renderCard(item)).join("")}
-            <button class="add-item-btn" onclick="openAddModal('${cat.replace(/'/g,"\\'")}')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              Add Item
-            </button>
-          </div>`;
-      }).join("");
+      wrap.innerHTML = Object.entries(grouped).map(([cat, catItems]) => `
+    <div class="grid-section-title">${cat} <span style="color:var(--sand);font-size:0.6rem;">${catItems.length}</span></div>
+    <div class="menu-grid">
+      ${catItems.map(item => renderCard(item)).join("")}
+    </div>
+  `).join("");
     }
 
     function itemKey(item) {
@@ -1679,27 +1390,17 @@
     }
 
     function renderCard(item) {
-      const key        = itemKey(item);
-      const isAdded    = !!addedItems[key];
-      const customImg  = overrides[key];
-      const customDet  = detailOverrides[key];
-      const imgSrc     = customImg || item.img;
-      const hasCustom  = !!customImg;
-      const hasDet     = !!customDet;
-      const col        = catColors[item.cat] || { bg: "#2e1a0e", accent: "#b8924a" };
-      const displayName  = (customDet && customDet.name)  || item.name;
-      const displayPrice = (customDet && customDet.price) || item.price;
-      const shortUrl   = imgSrc && imgSrc.startsWith("data:") ? "📎 Local file" : (imgSrc || "").replace("https://images.unsplash.com/", "unsplash/").replace(/\?.*/, "");
-
-      // Escape for inline onclick attrs
-      const eCat  = item.cat.replace(/'/g, "\\'");
-      const eName = item.name.replace(/'/g, "\\'");
+      const key = itemKey(item);
+      const customImg = overrides[key];
+      const imgSrc = customImg || item.img;
+      const hasCustom = !!customImg;
+      const col = catColors[item.cat] || { bg: "#2e1a0e", accent: "#b8924a" };
+      const shortUrl = imgSrc && imgSrc.startsWith("data:") ? "📎 Local file (embedded)" : (imgSrc || "").replace("https://images.unsplash.com/", "unsplash/").replace(/\?.*/, "");
 
       return `
-    <div class="item-card ${hasCustom ? "has-custom" : ""} ${hasDet ? "has-details-change" : ""} ${isAdded ? "is-added" : ""}"
-         onclick="openModal('${eCat}', '${eName}')">
+    <div class="item-card ${hasCustom ? "has-custom" : ""}" onclick="openModal('${item.cat.replace(/'/g, "\\'")}', '${item.name.replace(/'/g, "\\'")}')">
       <div class="card-thumb" style="background:linear-gradient(145deg,${col.bg}ee,${col.bg}99);">
-        <img src="${imgSrc}" alt="${displayName}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <img src="${imgSrc}" alt="${item.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
         <div class="card-thumb-placeholder" style="display:none;">
           <svg width="32" viewBox="0 0 40 56" fill="${col.accent}" opacity="0.5"><path d="M20 2 C13 11 7 18 7 28 C7 40 13 50 20 54 C27 50 33 40 33 28 C33 18 27 11 20 2Z"/></svg>
         </div>
@@ -1707,133 +1408,39 @@
           <div class="overlay-icon">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </div>
-          <span class="overlay-label">Edit Item</span>
+          <span class="overlay-label">Change Image</span>
         </div>
-        <!-- Delete button -->
-        <button class="card-delete-btn" onclick="event.stopPropagation(); deleteItem('${eCat}', '${eName}')" title="Delete item">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-        </button>
       </div>
       <div class="card-body">
         <div class="card-cat">${item.cat}</div>
-        <div class="card-name" style="${hasDet && customDet.name ? 'color:var(--gold)' : ''}">${displayName}</div>
-        <div class="card-img-url" style="display:flex;justify-content:space-between;align-items:center;gap:4px;">
-          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${shortUrl}</span>
-          <span style="font-family:'Cormorant Garamond',serif;font-size:0.78rem;color:var(--gold);font-style:italic;flex-shrink:0;">${displayPrice}</span>
-        </div>
+        <div class="card-name">${item.name}</div>
+        <div class="card-img-url">${shortUrl}</div>
       </div>
     </div>`;
     }
 
-    // ─── MODAL — EDIT MODE ───
+    // ─── MODAL ───
     function openModal(cat, name) {
-      // Check both base menuData and addedItems
-      const allItems = [...menuData, ...Object.values(addedItems)];
-      activeItem = allItems.find(i => i.cat === cat && i.name === name);
+      activeItem = menuData.find(i => i.cat === cat && i.name === name);
       if (!activeItem) return;
-      modalMode = "edit";
 
-      const key       = itemKey(activeItem);
+      const key = itemKey(activeItem);
       const customImg = overrides[key];
-      const customDet = detailOverrides[key] || {};
-      const imgSrc    = customImg || activeItem.img;
+      const imgSrc = customImg || activeItem.img;
 
-      updateModalPreview(imgSrc);
       document.getElementById("modalCat").textContent = activeItem.cat;
+      document.getElementById("modalName").textContent = activeItem.name;
+      updateModalPreview(imgSrc);
 
-      // Mode badge
-      const badge = document.getElementById("modalModeBadge");
-      badge.textContent = "✎ Edit Item";
-      badge.className   = "modal-mode-badge mode-edit";
-
-      // Details tab
-      document.getElementById("editName").value  = customDet.name  ?? activeItem.name;
-      document.getElementById("editDesc").value  = customDet.desc  ?? activeItem.desc;
-      document.getElementById("editPrice").value = customDet.price ?? activeItem.price;
-      document.getElementById("editCat").value   = customDet.cat   ?? activeItem.cat;
-
-      // Buttons
-      document.getElementById("btnSaveDetails").textContent  = "Save Details";
-      document.getElementById("btnResetDetails").style.display = "";
-
-      // Image tabs
       document.getElementById("fileInput").value = "";
-      document.getElementById("urlInput").value  = imgSrc && !imgSrc.startsWith("data:") ? imgSrc : "";
+      document.getElementById("filenameInput").value = suggestFilename(name);
+      document.getElementById("urlInput").value = imgSrc && !imgSrc.startsWith("data:") ? imgSrc : "";
       pendingDataUrl = null;
+      pendingFilename = null;
 
-      switchTab("details");
+      switchTab("upload");
       document.getElementById("modalBg").classList.add("open");
       document.body.style.overflow = "hidden";
-    }
-
-    // ─── MODAL — ADD MODE ───
-    function openAddModal(cat) {
-      modalMode    = "add";
-      addingToCat  = cat;
-      activeItem   = null;
-
-      updateModalPreview("");
-      document.getElementById("modalCat").textContent = cat;
-
-      const badge = document.getElementById("modalModeBadge");
-      badge.textContent = "+ New Item";
-      badge.className   = "modal-mode-badge mode-add";
-
-      // Clear details fields
-      document.getElementById("editName").value  = "";
-      document.getElementById("editDesc").value  = "";
-      document.getElementById("editPrice").value = "";
-      document.getElementById("editCat").value   = cat;
-
-      // Buttons
-      document.getElementById("btnSaveDetails").textContent  = "Add Item";
-      document.getElementById("btnResetDetails").style.display = "none";
-
-      // Image tabs
-      document.getElementById("fileInput").value = "";
-      document.getElementById("urlInput").value  = "";
-      pendingDataUrl = null;
-
-      switchTab("details");
-      document.getElementById("modalBg").classList.add("open");
-      document.body.style.overflow = "hidden";
-    }
-
-    // ─── DELETE ITEM ───
-    async function deleteItem(cat, name) {
-      const allItems = [...menuData, ...Object.values(addedItems)];
-      const item = allItems.find(i => i.cat === cat && i.name === name);
-      if (!item) return;
-
-      const displayName = item.name;
-      if (!confirm(`Delete "${displayName}" from the menu? This cannot be undone.`)) return;
-
-      const key    = itemKey(item);
-      const isNew  = !!addedItems[key];
-
-      if (isNew) {
-        // It's an admin-added item — just remove from addedItems store
-        await storeDelete(DB_ADDED, key);
-        delete addedItems[key];
-        // Also clean up any overrides for it
-        await storeDelete(DB_STORE, key);
-        await storeDelete(DB_DETAILS, key);
-        delete overrides[key];
-        delete detailOverrides[key];
-      } else {
-        // It's a base item — mark as deleted
-        await storeSet(DB_DELETED, key, true);
-        deletedKeys[key] = true;
-        // Also clean up any overrides
-        await storeDelete(DB_STORE, key);
-        await storeDelete(DB_DETAILS, key);
-        delete overrides[key];
-        delete detailOverrides[key];
-      }
-
-      notifyIndexPage();
-      renderGrid();
-      showStatus(`"${displayName}" removed from the menu.`, "success");
     }
 
     function closeModal() {
@@ -1849,96 +1456,22 @@
 
     function updateModalPreview(src) {
       const img = document.getElementById("modalPreviewImg");
-      const ph  = document.getElementById("modalPreviewPlaceholder");
-      if (src) { img.src = src; img.style.display = "block"; ph.style.display = "none"; }
-      else     { img.style.display = "none"; ph.style.display = "flex"; }
+      const placeholder = document.getElementById("modalPreviewPlaceholder");
+      if (src) {
+        img.src = src;
+        img.style.display = "block";
+        placeholder.style.display = "none";
+      } else {
+        img.style.display = "none";
+        placeholder.style.display = "flex";
+      }
     }
 
     function switchTab(tab) {
       activeTab = tab;
-      const tabOrder = ["details", "upload", "url"];
-      document.querySelectorAll(".modal-tab").forEach((b, i) => b.classList.toggle("active", tabOrder[i] === tab));
-      tabOrder.forEach(t => {
-        const el = document.getElementById("tab-" + t);
-        if (el) el.classList.toggle("active", t === tab);
-      });
-    }
-
-    // ─── APPLY DETAILS ───
-    async function applyDetails() {
-      const name  = document.getElementById("editName").value.trim();
-      const desc  = document.getElementById("editDesc").value.trim();
-      const price = document.getElementById("editPrice").value.trim();
-      const cat   = document.getElementById("editCat").value;
-
-      if (!name)  { showStatus("Name cannot be empty.", "error"); return; }
-      if (!price) { showStatus("Price cannot be empty.", "error"); return; }
-
-      // ── ADD MODE ──
-      if (modalMode === "add") {
-        const newItem = { cat, name, desc, price, img: pendingDataUrl || document.getElementById("urlInput").value.trim() || "" };
-        const key = cat + "::" + name;
-        // Prevent duplicate keys
-        if (addedItems[key] || menuData.some(i => itemKey(i) === key)) {
-          showStatus(`An item named "${name}" already exists in ${cat}.`, "error"); return;
-        }
-        try {
-          await storeSet(DB_ADDED, key, newItem);
-          if (newItem.img) await storeSet(DB_STORE, key, newItem.img);
-          addedItems[key] = newItem;
-          notifyIndexPage();
-          closeModal();
-          renderGrid();
-          showStatus(`✓ "${name}" added to ${cat} — live on the main page now.`, "success");
-        } catch (e) {
-          showStatus("Could not save new item.", "error");
-        }
-        return;
-      }
-
-      // ── EDIT MODE ──
-      if (!activeItem) return;
-      const key = itemKey(activeItem);
-      const details = { name, desc, price, cat };
-      try {
-        await storeSet(DB_DETAILS, key, details);
-        detailOverrides[key] = details;
-        // Also update the live menuData so the grid reflects changes immediately
-        const idx = menuData.findIndex(i => i.cat === activeItem.cat && i.name === activeItem.name);
-        if (idx !== -1) {
-          menuData[idx] = { ...menuData[idx], name, desc, price, cat };
-        }
-        // If it's an added item, update addedItems too
-        if (addedItems[key]) {
-          addedItems[key] = { ...addedItems[key], ...details };
-          await storeSet(DB_ADDED, key, addedItems[key]);
-        }
-        notifyIndexPage();
-        closeModal();
-        renderGrid();
-        showStatus(`✓ "${name}" updated — live on the main page now.`, "success");
-      } catch (e) {
-        showStatus("Could not save changes.", "error");
-      }
-    }
-
-    async function clearDetails() {
-      if (!activeItem) return;
-      const key = itemKey(activeItem);
-      await storeDelete(DB_DETAILS, key);
-      delete detailOverrides[key];
-      // restore original from source data
-      const original = menuData.find(i => itemKey(i) === key);
-      if (original) {
-        document.getElementById("editName").value  = activeItem.name;
-        document.getElementById("editDesc").value  = activeItem.desc;
-        document.getElementById("editPrice").value = activeItem.price;
-        document.getElementById("editCat").value   = activeItem.cat;
-      }
-      notifyIndexPage();
-      closeModal();
-      renderGrid();
-      showStatus("Details reset to default.", "");
+      document.querySelectorAll(".modal-tab").forEach((b, i) => b.classList.toggle("active", (i === 0 && tab === "upload") || (i === 1 && tab === "url")));
+      document.getElementById("tab-upload").classList.toggle("active", tab === "upload");
+      document.getElementById("tab-url").classList.toggle("active", tab === "url");
     }
 
     // ─── FILE UPLOAD ───
@@ -2008,23 +1541,13 @@
 
     // ─── RESET ALL ───
     async function resetAll() {
-      const hasImg     = Object.keys(overrides).length;
-      const hasDet     = Object.keys(detailOverrides).length;
-      const hasAdded   = Object.keys(addedItems).length;
-      const hasDeleted = Object.keys(deletedKeys).length;
-      if (!hasImg && !hasDet && !hasAdded && !hasDeleted) { showStatus("Nothing to reset.", ""); return; }
-      if (!confirm("Reset ALL images, detail changes, added items, and deleted items back to defaults? This cannot be undone.")) return;
+      if (!Object.keys(overrides).length) { showStatus("No custom images to reset.", ""); return; }
+      if (!confirm("Reset ALL custom images back to defaults? This cannot be undone.")) return;
       await dbClear();
-      await storeClear(DB_DETAILS);
-      await storeClear(DB_ADDED);
-      await storeClear(DB_DELETED);
-      overrides       = {};
-      detailOverrides = {};
-      addedItems      = {};
-      deletedKeys     = {};
+      overrides = {};
       notifyIndexPage();
       renderGrid();
-      showStatus("Everything reset to defaults.", "");
+      showStatus("All images reset to defaults.", "");
     }
 
     // ─── STATUS ───
@@ -2051,44 +1574,6 @@
         handleFileSelect({ target: { files: dt.files } });
       }
     });
-
-    // ── SEED DEFAULT IMAGES INTO IndexedDB ──
-    // Pre-fills any item that has a default Unsplash URL but no custom override yet.
-    async function seedDefaultImages() {
-      await openDB();
-      const existing = await dbGetAll();
-      const tx = db.transaction(DB_STORE, "readwrite");
-      const store = tx.objectStore(DB_STORE);
-      let seeded = 0;
-      menuData.forEach(item => {
-        if (!item.img) return;                          // no default image — skip
-        const key = item.cat + "::" + item.name;
-        if (existing[key]) return;                     // already has a custom override — don't touch
-        store.put(item.img, key);
-        seeded++;
-      });
-      return new Promise((resolve, reject) => {
-        tx.oncomplete = () => resolve(seeded);
-        tx.onerror = () => reject(tx.error);
-      });
-    }
-
-    async function init() {
-      await openDB();
-      const seeded = await seedDefaultImages();
-      if (seeded > 0) notifyIndexPage();
-      overrides       = await dbGetAll();
-      detailOverrides = await storeGetAll(DB_DETAILS);
-      addedItems      = await storeGetAll(DB_ADDED);
-      deletedKeys     = await storeGetAll(DB_DELETED);
-      // Apply detail overrides to live menuData
-      Object.entries(detailOverrides).forEach(([key, det]) => {
-        const idx = menuData.findIndex(i => itemKey(i) === key);
-        if (idx !== -1) menuData[idx] = { ...menuData[idx], ...det };
-      });
-      buildCatFilter();
-      renderGrid();
-    }
 
     init();
   </script>

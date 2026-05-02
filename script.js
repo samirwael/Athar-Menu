@@ -327,76 +327,30 @@ const menuDataDefault = [
     img: "https://images.unsplash.com/photo-1617957689233-207e3cd3c610?w=600&q=80" }
 ];
 
-// ── IndexedDB SETUP ──
-const DB_NAME    = "athar_db";
-const DB_STORE   = "image_overrides";
-const DB_DETAILS = "item_overrides";
-const DB_ADDED   = "added_items";
-const DB_DELETED = "deleted_items";
-const DB_VERSION = 3;
-let _db = null;
+// ── FIREBASE SETUP ──
+// 👇 REPLACE with your own Firebase project config (same URL as in admin.html)
+const FIREBASE_DB_URL = "https://athar-menu-default-rtdb.firebaseio.com";
+const FIREBASE_PATH = "image_overrides";
 
-function openDB() {
-  return new Promise((resolve, reject) => {
-    if (_db) { resolve(_db); return; }
-    const req = indexedDB.open(DB_NAME, DB_VERSION);
-    req.onupgradeneeded = e => {
-      const d = e.target.result;
-      if (!d.objectStoreNames.contains(DB_STORE))   d.createObjectStore(DB_STORE);
-      if (!d.objectStoreNames.contains(DB_DETAILS)) d.createObjectStore(DB_DETAILS);
-      if (!d.objectStoreNames.contains(DB_ADDED))   d.createObjectStore(DB_ADDED);
-      if (!d.objectStoreNames.contains(DB_DELETED)) d.createObjectStore(DB_DELETED);
-    };
-    req.onsuccess = e => { _db = e.target.result; resolve(_db); };
-    req.onerror = () => reject(req.error);
-  });
+async function dbGetAll() {
+  try {
+    const res = await fetch(`${FIREBASE_DB_URL}/${FIREBASE_PATH}.json`);
+    if (!res.ok) return {};
+    const data = await res.json();
+    return data ?? {};
+  } catch (e) {
+    return {};
+  }
 }
 
-function storeGetAll(storeName) {
-  return openDB().then(db => new Promise((resolve) => {
-    const store = db.transaction(storeName, "readonly").objectStore(storeName);
-    const keys = [], values = [];
-    store.openCursor().onsuccess = e => {
-      const cursor = e.target.result;
-      if (cursor) { keys.push(cursor.key); values.push(cursor.value); cursor.continue(); }
-      else { const obj = {}; keys.forEach((k, i) => obj[k] = values[i]); resolve(obj); }
-    };
-  }));
-}
-
-function dbGetAll() { return storeGetAll(DB_STORE); }
-
-// ── MERGE IMAGE + DETAIL OVERRIDES FROM IndexedDB ──
-async function buildMenuData() {
-  const [imgOverrides, detOverrides, addedItems, deletedKeys] = await Promise.all([
-    storeGetAll(DB_STORE),
-    storeGetAll(DB_DETAILS),
-    storeGetAll(DB_ADDED),
-    storeGetAll(DB_DELETED)
-  ]);
-  // Start from base, filter out deleted, apply overrides
-  const base = menuDataDefault
-    .filter(item => !deletedKeys[item.cat + "::" + item.name])
-    .map(item => {
-      const key = item.cat + "::" + item.name;
-      const merged = { ...item };
-      if (imgOverrides[key]) merged.img = imgOverrides[key];
-      if (detOverrides[key]) Object.assign(merged, detOverrides[key]);
-      return merged;
-    });
-  // Append admin-added items (apply image overrides too if any)
-  const added = Object.values(addedItems).map(item => {
-    const key = item.cat + "::" + item.name;
-    const merged = { ...item };
-    if (imgOverrides[key]) merged.img = imgOverrides[key];
-    return merged;
-  });
-  return [...base, ...added];
-}
-
+// ── MERGE WITH ADMIN IMAGE OVERRIDES FROM IndexedDB ──
 async function initMenuData() {
   try {
-    menuData = await buildMenuData();
+    const overrides = await dbGetAll();
+    menuData = menuDataDefault.map(item => {
+      const key = item.cat + "::" + item.name;
+      return overrides[key] ? { ...item, img: overrides[key] } : { ...item };
+    });
   } catch (e) {
     menuData = menuDataDefault.map(item => ({ ...item }));
   }
@@ -406,16 +360,14 @@ async function initMenuData() {
 
 async function refreshMenuData() {
   try {
-    menuData = await buildMenuData();
+    const overrides = await dbGetAll();
+    menuData = menuDataDefault.map(item => {
+      const key = item.cat + "::" + item.name;
+      return overrides[key] ? { ...item, img: overrides[key] } : { ...item };
+    });
   } catch (e) {}
   renderMenu(activeCategory);
-  // Re-render spotlight in place with updated images (direction 0 = no slide)
-  if (featuredHistory[featuredHistoryIndex]) {
-    const cur = featuredHistory[featuredHistoryIndex];
-    const updated = menuData.find(i => i.cat === cur.cat && i.name === cur.name) || cur;
-    featuredHistory[featuredHistoryIndex] = updated;
-    renderFeaturedItem(updated, 0);
-  }
+  showRandomFeatured(false);
 }
 
 let menuData = menuDataDefault.map(item => ({ ...item }));
@@ -446,14 +398,10 @@ const catColors = {
 let activeCategory = "All";
 let activeSearch = "";
 let activeSort = "default";
-const featuredPageSize = 1;
+const featuredPageSize = 3;
 let featuredTimer = null;
-let featuredRingRaf = null;
 let featuredHistory = [];
 let featuredHistoryIndex = -1;
-const FEATURED_INTERVAL = 6000; // ms per slide
-let featuredTimerStart = 0;
-let featuredPaused = false;
 
 function toPriceNumber(value) {
   return Number.parseFloat(String(value).replace(/[^\d.]/g, "")) || 0;
@@ -473,158 +421,79 @@ function getFilteredItems(category) {
   return items;
 }
 
-// pickRandomFeaturedSet kept for compatibility (unused by new spotlight)
 function pickRandomFeaturedSet(excludedKey = "") {
-  return [pickRandomFeaturedItem(excludedKey)];
-}
-
-// ── FEATURED SPOTLIGHT ──
-
-function pickRandomFeaturedItem(excludeName = "") {
-  // Prefer items with images
-  const pool = menuData.filter(i => i.img && i.name !== excludeName);
-  const fallback = menuData.filter(i => i.name !== excludeName);
-  const source = pool.length ? pool : fallback;
-  if (!source.length) return menuData[0];
-  return source[Math.floor(Math.random() * source.length)];
-}
-
-function renderFeaturedItem(item, direction = 1) {
-  const spotlight = document.getElementById("fsSpotlight");
-  const imgWrap   = document.getElementById("fsImgWrap");
-  const imgEl     = document.getElementById("fsImg");
-  const imgBg     = document.getElementById("fsImgBg");
-  const imgPh     = document.getElementById("fsImgPlaceholder");
-  const badgeEl   = document.getElementById("fsBadge");
-  const infoEl    = document.getElementById("fsInfo");
-  const catEl     = document.getElementById("fsCat");
-  const nameEl    = document.getElementById("fsName");
-  const descEl    = document.getElementById("fsDesc");
-  const priceEl   = document.getElementById("fsPrice");
-  const counter   = document.getElementById("fsCounter");
-
-  if (!spotlight) return;
-
-  // Direction classes for slide animation
-  const outClass = direction > 0 ? "fs-exit-left"  : "fs-exit-right";
-  const inClass  = direction > 0 ? "fs-enter-right" : "fs-enter-left";
-
-  // Animate out
-  imgWrap.classList.add(outClass);
-  infoEl.classList.add(outClass);
-
-  setTimeout(() => {
-    // Swap content
-    const col = catColors[item.cat] || { bg: "#2e1a0e", accent: "#b8924a" };
-
-    if (item.img) {
-      imgEl.src = item.img;
-      imgEl.style.display = "block";
-      imgPh.style.display = "none";
-    } else {
-      imgEl.style.display = "none";
-      imgPh.style.display = "flex";
+  if (menuData.length <= featuredPageSize) return [...menuData];
+  let picked = [];
+  let guard = 0;
+  do {
+    const pool = [...menuData];
+    picked = [];
+    while (picked.length < featuredPageSize && pool.length) {
+      const idx = Math.floor(Math.random() * pool.length);
+      picked.push(pool[idx]);
+      pool.splice(idx, 1);
     }
-
-    // Blurred colour bg from category
-    imgBg.style.background = `linear-gradient(135deg, ${col.bg} 0%, ${col.bg}cc 60%, rgba(20,10,3,0.9) 100%)`;
-    badgeEl.textContent    = item.cat;
-    badgeEl.style.color    = col.accent;
-    badgeEl.style.borderColor = col.accent + "55";
-
-    catEl.textContent   = item.cat;
-    catEl.style.color   = col.accent;
-    nameEl.textContent  = item.name;
-    descEl.textContent  = item.desc;
-    priceEl.textContent = item.price;
-
-    // Counter
-    if (counter) counter.textContent = `${featuredHistoryIndex + 1} / ${featuredHistory.length}`;
-
-    // Remove out, add in
-    imgWrap.classList.remove(outClass);
-    infoEl.classList.remove(outClass);
-    imgWrap.classList.add(inClass);
-    infoEl.classList.add(inClass);
-
-    // Clean up in-class after animation
-    setTimeout(() => {
-      imgWrap.classList.remove(inClass);
-      infoEl.classList.remove(inClass);
-    }, 500);
-
-  }, 280);
+    guard += 1;
+  } while (picked.map((i) => i.name).join("|") === excludedKey && guard < 8);
+  return picked;
 }
 
-function showRandomFeatured(pushHistory = true, direction = 1) {
-  const current = featuredHistory[featuredHistoryIndex];
-  const excludeName = current ? current.name : "";
-  const next = pickRandomFeaturedItem(excludeName);
+function renderFeatured(items) {
+  const grid = document.getElementById("featuredGrid");
+  const status = document.getElementById("featuredStatus");
+  if (!grid) return;
+  grid.classList.remove("is-switching");
+  grid.innerHTML = items.map((item, idx) => `
+    <article class="featured-card" style="animation-delay:${idx * 0.08}s">
+      <h3>${item.name}</h3>
+      <p>${item.desc}</p>
+      <span>${item.price}</span>
+    </article>
+  `).join("");
+  requestAnimationFrame(() => grid.classList.add("is-switching"));
+  if (status) status.textContent = `Auto Random • ${featuredHistoryIndex + 1}`;
+}
+
+function showRandomFeatured(pushHistory = true) {
+  const current = featuredHistory[featuredHistoryIndex] || [];
+  const currentKey = current.map((i) => i.name).join("|");
+  const nextSet = pickRandomFeaturedSet(currentKey);
   if (pushHistory) {
     featuredHistory = featuredHistory.slice(0, featuredHistoryIndex + 1);
-    featuredHistory.push(next);
+    featuredHistory.push(nextSet);
     featuredHistoryIndex = featuredHistory.length - 1;
   }
-  renderFeaturedItem(next, direction);
-  resetFeaturedTimer();
+  renderFeatured(nextSet);
 }
 
 function stepFeatured(direction) {
   if (direction < 0 && featuredHistoryIndex > 0) {
     featuredHistoryIndex -= 1;
-    renderFeaturedItem(featuredHistory[featuredHistoryIndex], direction);
-    resetFeaturedTimer();
+    renderFeatured(featuredHistory[featuredHistoryIndex]);
     return;
   }
-  showRandomFeatured(true, direction);
-}
-
-// ── Countdown ring animation ──
-function startRingCountdown() {
-  if (featuredRingRaf) cancelAnimationFrame(featuredRingRaf);
-  const prog = document.getElementById("fsRingProg");
-  if (!prog) return;
-  const circumference = 2 * Math.PI * 18; // r=18
-  prog.style.strokeDasharray  = circumference;
-  featuredTimerStart = performance.now();
-
-  function tick(now) {
-    if (featuredPaused) { featuredRingRaf = requestAnimationFrame(tick); return; }
-    const elapsed = now - featuredTimerStart;
-    const ratio   = Math.min(elapsed / FEATURED_INTERVAL, 1);
-    prog.style.strokeDashoffset = circumference * ratio;
-    if (ratio < 1) {
-      featuredRingRaf = requestAnimationFrame(tick);
-    }
+  if (direction > 0 && featuredHistoryIndex < featuredHistory.length - 1) {
+    featuredHistoryIndex += 1;
+    renderFeatured(featuredHistory[featuredHistoryIndex]);
+    return;
   }
-  featuredRingRaf = requestAnimationFrame(tick);
-}
-
-function resetFeaturedTimer() {
-  if (featuredTimer) clearTimeout(featuredTimer);
-  startRingCountdown();
-  featuredTimer = setTimeout(() => {
-    if (!featuredPaused) showRandomFeatured(true, 1);
-  }, FEATURED_INTERVAL);
+  showRandomFeatured(true);
 }
 
 function initFeatured() {
-  const nextBtn   = document.getElementById("fsNext");
-  const prevBtn   = document.getElementById("fsPrev");
-  const spotlight = document.getElementById("fsSpotlight");
-
-  showRandomFeatured(true, 1);
-
+  const nextBtn = document.getElementById("featuredNext");
+  const prevBtn = document.getElementById("featuredPrev");
+  const wrap = document.querySelector(".featured-inner");
+  showRandomFeatured(true);
   if (nextBtn) nextBtn.addEventListener("click", () => stepFeatured(1));
   if (prevBtn) prevBtn.addEventListener("click", () => stepFeatured(-1));
-
-  // Pause on hover
-  if (spotlight) {
-    spotlight.addEventListener("mouseenter", () => { featuredPaused = true; });
-    spotlight.addEventListener("mouseleave", () => {
-      featuredPaused = false;
-      // reset timer so it doesn't fire immediately after unpause
-      resetFeaturedTimer();
+  if (featuredTimer) clearInterval(featuredTimer);
+  featuredTimer = setInterval(() => showRandomFeatured(true), 3600);
+  if (wrap) {
+    wrap.addEventListener("mouseenter", () => { if (featuredTimer) clearInterval(featuredTimer); });
+    wrap.addEventListener("mouseleave", () => {
+      if (featuredTimer) clearInterval(featuredTimer);
+      featuredTimer = setInterval(() => showRandomFeatured(true), 3600);
     });
   }
 }
