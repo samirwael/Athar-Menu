@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ATHAR Café — Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <img src="athar-logo-brown-t.png" alt="ATHAR" class="nav-logo-img">
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <span class="nav-hours">Open Daily · 8am – 2am</span>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#hero">Home</a>
+  <a href="#menu">Menu</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-logo-img">
+      <img src="athar-logo-light-t.png" alt="ATHAR Café">
+    </div>
+    <p class="hero-tagline">Crafted with <em>Passion.</em></p>
+    <p class="hero-arabic">كل قعدة لها ذكرى · وكل ذكرى لها أثر</p>
+    <p class="hero-sub">Every moment holds a memory · every memory holds an <em>Athar</em></p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-primary">Explore the Menu</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><span></span></div>
+</section>
+
+<!-- FEATURED -->
+<section class="featured-section reveal" id="featured">
+  <div class="featured-inner">
+    <div class="featured-logo-wrap" aria-hidden="true">
+      <span class="logo-ring ring-1"></span>
+      <span class="logo-ring ring-2"></span>
+      <img src="athar-logo-light-t.png" alt="" class="featured-logo-animated">
+    </div>
+    <div class="section-label"><span>Featured</span></div>
+    <h2>Signature Picks</h2>
+    <p>Handpicked favorites guests keep coming back for.</p>
+    <div class="featured-grid" id="featuredGrid"></div>
+    <div class="featured-controls">
+      <button id="featuredPrev" class="featured-btn" aria-label="Previous featured items">Prev</button>
+      <span id="featuredStatus" class="featured-status">1 / 1</span>
+      <button id="featuredNext" class="featured-btn" aria-label="Next featured items">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu-section reveal" id="menu">
+  <div class="menu-header">
+    <div class="section-label"><span>Our Menu</span></div>
+    <p class="menu-sub">Everything made with love and the finest ingredients</p>
+  </div>
+  <div class="menu-tabs-wrapper">
+    <div class="menu-tabs" id="menuTabs">
+      <button class="tab active" data-cat="All">All</button>
+      <button class="tab" data-cat="Hot Drinks">Hot Drinks</button>
+      <button class="tab" data-cat="Iced Coffee">Iced Coffee</button>
+      <button class="tab" data-cat="Coffee Blended">Coffee Blended</button>
+      <button class="tab" data-cat="Non-Coffee Blended">Non-Coffee Blended</button>
+      <button class="tab" data-cat="Milkshakes">Milkshakes</button>
+      <button class="tab" data-cat="Fresh Juice">Fresh Juice</button>
+      <button class="tab" data-cat="Refreshers">Refreshers</button>
+      <button class="tab" data-cat="Matcha">Matcha</button>
+      <button class="tab" data-cat="Tea">Tea</button>
+      <button class="tab" data-cat="Desserts">Desserts</button>
+      <button class="tab" data-cat="Extras">Extras</button>
+    </div>
+  </div>
+  <div class="menu-grid" id="menuGrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section reveal" id="about">
+  <div class="about-inner">
+    <div class="about-brand">
+      <div class="about-logo-mark">
+        <img src="athar-logo-brown-t.png" alt="ATHAR" class="about-logo-img">
+      </div>
+      <div class="about-arabic-block">
+        <p>كل قعدة لها ذكرى</p>
+        <p>وكل ذكرى لها اثر</p>
+      </div>
+      <p class="about-est">Est. 2020 · Cairo</p>
+    </div>
+    <div class="about-content">
+      <p class="eyebrow">Our Story</p>
+      <h2>More than a cup<br>of coffee</h2>
+      <p>ATHAR was born from a passion for quality and a love for community. We believe every visit should feel like a warm embrace — from your first sip to your last bite.</p>
+      <p>We source our beans with care, craft our drinks with precision, and serve everything with genuine hospitality. Welcome to ATHAR — your second home.</p>
+      <div class="about-stats">
+        <div class="stat"><span class="stat-num">40+</span><span class="stat-label">Menu Items</span></div>
+        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Fresh Daily</span></div>
+        <div class="stat"><span class="stat-num">8am</span><span class="stat-label">Every Morning</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section reveal" id="contact">
+  <div class="contact-inner">
+    <div class="contact-brand">
+      <img src="athar-logo-light-t.png" alt="ATHAR" class="contact-logo-img">
+      <p>Your favourite neighbourhood café</p>
+    </div>
+    <div class="contact-links">
+      <a href="https://www.instagram.com/atharcafe.eg" target="_blank" class="contact-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+        <div><span class="cl-platform">Instagram</span><span class="cl-handle">@atharcafe.eg</span></div>
+        <span class="cl-arrow">↗</span>
+      </a>
+      <a href="https://www.facebook.com/atharcafeeg/" target="_blank" class="contact-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        <div><span class="cl-platform">Facebook</span><span class="cl-handle">atharcafeeg</span></div>
+        <span class="cl-arrow">↗</span>
+      </a>
+      <a href="https://www.google.com/maps/place/Athar+Caf%C3%A9/@29.8477397,31.3371203,17z" target="_blank" class="contact-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        <div><span class="cl-platform">Find Us</span><span class="cl-handle">Open in Google Maps</span></div>
+        <span class="cl-arrow">↗</span>
+      </a>
+      <a href="tel:+201029980416" class="contact-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.06 1.2 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+        <div><span class="cl-platform">Call Us</span><span class="cl-handle">+20 10 2998 0416</span></div>
+        <span class="cl-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 ATHAR Café · All rights reserved</p>
+</footer>
+<button id="backToTop" class="back-top" aria-label="Back to top">↑</button>
+
+<script src="script.js"></script>
+</body>
+</html>
