@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ATHAR — Menu Image Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Lato:wght@300;400&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --cream: #f5f0e8;
+      --beige: #ede5d5;
+      --sand: #d9c9b0;
+      --gold: #b8924a;
+      --dark-gold: #8a6a2e;
+      --brown: #5c3d1e;
+      --dark-brown: #2e1a0e;
+      --text: #3a2810;
+      --muted: #7a6040;
+      --white: #fdfaf5;
+    }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--dark-brown);
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(184, 146, 74, 0.25);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .header-brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px rgba(184, 146, 74, 0.6);
+    }
+
+    .header-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.35em;
+      color: var(--sand);
+      text-transform: uppercase;
+    }
+
+    .header-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.82rem;
+      color: rgba(217, 201, 176, 0.5);
+      margin-left: 4px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Live badge */
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: #6dbf6d;
+      border: 1px solid rgba(109, 191, 109, 0.35);
+      background: rgba(109, 191, 109, 0.08);
+      padding: 8px 16px;
+      border-radius: 50px;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #6dbf6d;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(109, 191, 109, 0.5);
+      }
+
+      50% {
+        opacity: 0.7;
+        box-shadow: 0 0 0 5px rgba(109, 191, 109, 0);
+      }
+    }
+
+    .btn-view-site {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      padding: 10px 20px;
+      border: 1px solid rgba(184, 146, 74, 0.35);
+      background: rgba(184, 146, 74, 0.1);
+      color: var(--sand);
+      border-radius: 50px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .btn-view-site:hover {
+      background: rgba(184, 146, 74, 0.2);
+      color: var(--gold);
+    }
+
+    .btn-reset {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      padding: 10px 20px;
+      border: 1px solid rgba(217, 201, 176, 0.2);
+      background: transparent;
+      color: rgba(217, 201, 176, 0.55);
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-reset:hover {
+      border-color: rgba(217, 201, 176, 0.5);
+      color: var(--sand);
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      padding: 20px 40px;
+      background: var(--beige);
+      border-bottom: 1px solid rgba(184, 146, 74, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+      max-width: 340px;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 10px 12px 10px 36px;
+      border: 1px solid rgba(184, 146, 74, 0.3);
+      border-radius: 10px;
+      background: var(--white);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #searchInput:focus {
+      border-color: var(--gold);
+    }
+
+    #searchInput::placeholder {
+      color: var(--muted);
+    }
+
+    .cat-filter {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .cat-chip {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      padding: 7px 16px;
+      border: 1px solid var(--sand);
+      border-radius: 50px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .cat-chip:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .cat-chip.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--white);
+    }
+
+    .count-badge {
+      margin-left: auto;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ── STATUS BAR ── */
+    #statusBar {
+      padding: 10px 40px;
+      background: rgba(184, 146, 74, 0.08);
+      border-bottom: 1px solid rgba(184, 146, 74, 0.12);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      display: none;
+    }
+
+    #statusBar.show {
+      display: block;
+    }
+
+    #statusBar.success {
+      background: rgba(100, 160, 100, 0.1);
+      color: #4a7a40;
+    }
+
+    #statusBar.error {
+      background: rgba(180, 80, 80, 0.1);
+      color: #8a4040;
+    }
+
+    /* ── GRID ── */
+    .grid-wrap {
+      padding: 28px 40px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .grid-section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.35em;
+      color: var(--muted);
+      text-transform: uppercase;
+      padding: 18px 0 10px;
+      border-bottom: 1px solid rgba(184, 146, 74, 0.15);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .grid-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(184, 146, 74, 0.15);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    /* ── CARD ── */
+    .item-card {
+      background: var(--white);
+      border: 1px solid rgba(184, 146, 74, 0.12);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      position: relative;
+      animation: cardIn 0.35s ease both;
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .item-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 32px rgba(92, 61, 30, 0.13);
+      border-color: rgba(184, 146, 74, 0.35);
+    }
+
+    .item-card.has-custom {
+      border-color: rgba(100, 160, 80, 0.4);
+    }
+
+    .item-card.has-custom::after {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 20px;
+      height: 20px;
+      background: rgba(80, 140, 60, 0.85);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .card-thumb {
+      width: 100%;
+      aspect-ratio: 4/3;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .item-card:hover .card-thumb img {
+      transform: scale(1.05);
+    }
+
+    .card-thumb-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(46, 26, 14, 0.55);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .item-card:hover .card-overlay {
+      opacity: 1;
+    }
+
+    .overlay-icon {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid rgba(217, 201, 176, 0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sand);
+    }
+
+    .overlay-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      color: rgba(217, 201, 176, 0.8);
+    }
+
+    .card-body {
+      padding: 13px 15px 15px;
+    }
+
+    .card-cat {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .card-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--dark-brown);
+      margin-bottom: 5px;
+      line-height: 1.35;
+    }
+
+    .card-img-url {
+      font-size: 0.6rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: monospace;
+    }
+
+    /* ── MODAL ── */
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(46, 26, 14, 0.72);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .modal-bg.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 520px;
+      overflow: hidden;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.3s ease;
+      box-shadow: 0 30px 80px rgba(46, 26, 14, 0.4);
+    }
+
+    .modal-bg.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-preview {
+      width: 100%;
+      aspect-ratio: 16/9;
+      position: relative;
+      overflow: hidden;
+      background: var(--dark-brown);
+    }
+
+    .modal-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .modal-preview-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(217, 201, 176, 0.3);
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+    }
+
+    .modal-body {
+      padding: 24px 28px 28px;
+    }
+
+    .modal-eyebrow {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .modal-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.06em;
+      color: var(--dark-brown);
+      margin-bottom: 18px;
+    }
+
+    .modal-tabs {
+      display: flex;
+      gap: 0;
+      border: 1px solid rgba(184, 146, 74, 0.25);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .modal-tab {
+      flex: 1;
+      padding: 9px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-tab.active {
+      background: var(--gold);
+      color: var(--white);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .upload-zone {
+      border: 1.5px dashed rgba(184, 146, 74, 0.4);
+      border-radius: 12px;
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: rgba(184, 146, 74, 0.03);
+      position: relative;
+    }
+
+    .upload-zone:hover,
+    .upload-zone.drag-over {
+      border-color: var(--gold);
+      background: rgba(184, 146, 74, 0.07);
+    }
+
+    .upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .upload-icon {
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(184, 146, 74, 0.35);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      color: var(--gold);
+    }
+
+    .upload-zone p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .upload-zone span {
+      font-size: 0.65rem;
+      color: var(--sand);
+    }
+
+    .url-input-wrap {
+      position: relative;
+    }
+
+    .url-input-wrap input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid rgba(184, 146, 74, 0.3);
+      border-radius: 10px;
+      background: var(--beige);
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .url-input-wrap input:focus {
+      border-color: var(--gold);
+    }
+
+    .url-input-wrap input::placeholder {
+      color: var(--sand);
+      font-family: 'Lato', sans-serif;
+    }
+
+    .url-preview-note {
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    .filename-wrap {
+      margin-top: 14px;
+    }
+
+    .filename-label {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .filename-wrap input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid rgba(184, 146, 74, 0.3);
+      border-radius: 10px;
+      background: var(--beige);
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .filename-wrap input:focus {
+      border-color: var(--gold);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .btn-apply {
+      flex: 1;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      padding: 12px;
+      border: 1px solid var(--gold);
+      background: var(--gold);
+      color: var(--white);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .btn-apply:hover {
+      background: var(--dark-gold);
+      border-color: var(--dark-gold);
+    }
+
+    .btn-apply:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-clear {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      padding: 12px 18px;
+      border: 1px solid rgba(184, 146, 74, 0.25);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .btn-clear:hover {
+      border-color: #c06060;
+      color: #c06060;
+    }
+
+    .btn-cancel {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      padding: 12px 16px;
+      border: 1px solid rgba(184, 146, 74, 0.2);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .btn-cancel:hover {
+      border-color: var(--sand);
+      color: var(--text);
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      header {
+        padding: 14px 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .toolbar {
+        padding: 14px 20px;
+      }
+
+      .grid-wrap {
+        padding: 16px 20px 40px;
+      }
+
+      .menu-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+      }
+
+      .cat-filter {
+        display: none;
+      }
+
+      .count-badge {
+        display: none;
+      }
+    }
+
+    /* ── MODAL CLOSE BTN ── */
+    .modal-close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(20,10,3,0.55);
+      color: rgba(217,201,176,0.8);
+      font-size: 0.7rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      transition: all 0.2s;
+      z-index: 10;
+    }
+    .modal-close-btn:hover { background: rgba(180,80,80,0.7); border-color: transparent; color: #fff; }
+
+    /* ── MODAL TABS — 3 tabs now ── */
+    .modal-tabs {
+      display: flex;
+      gap: 0;
+      border: 1px solid rgba(184,146,74,0.25);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .modal-tab {
+      flex: 1;
+      padding: 9px 6px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    .modal-tab.active { background: var(--gold); color: var(--white); }
+    .modal-tab:not(.active):hover { background: rgba(184,146,74,0.08); color: var(--gold); }
+
+    /* ── FIELD STYLES ── */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 14px;
+    }
+    .field-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .field-row .field-group { margin-bottom: 0; }
+    .field-label {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .field-input {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1px solid rgba(184,146,74,0.28);
+      border-radius: 10px;
+      background: var(--beige);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.82rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184,146,74,0.1);
+    }
+    .field-textarea {
+      resize: vertical;
+      min-height: 72px;
+      line-height: 1.6;
+    }
+    .field-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a6040' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      cursor: pointer;
+    }
+
+    /* ── CHANGED INDICATOR on card ── */
+    .item-card.has-details-change::before {
+      content: '✎';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 20px;
+      height: 20px;
+      background: rgba(184,146,74,0.85);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    /* ── DELETE BUTTON on card ── */
+    .card-delete-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid rgba(200,60,60,0.5);
+      background: rgba(20,10,3,0.7);
+      color: rgba(220,100,100,0.9);
+      font-size: 0.65rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0.2s, background 0.2s, color 0.2s;
+      backdrop-filter: blur(4px);
+    }
+    .item-card:hover .card-delete-btn { opacity: 1; }
+    .card-delete-btn:hover { background: rgba(180,50,50,0.85); color: #fff; border-color: transparent; }
+
+    /* ── ADDED ITEM badge ── */
+    .item-card.is-added { border-color: rgba(100,160,220,0.45); }
+    .item-card.is-added::after { content: '+'; background: rgba(60,110,180,0.85); }
+
+    /* ── ADD ITEM button per section ── */
+    .add-item-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      width: 100%;
+      padding: 14px;
+      border: 1.5px dashed rgba(184,146,74,0.3);
+      border-radius: 14px;
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-top: 4px;
+    }
+    .add-item-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(184,146,74,0.05);
+    }
+
+    /* ── Modal mode indicator ── */
+    .modal-mode-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      padding: 4px 10px;
+      border-radius: 50px;
+      margin-bottom: 10px;
+    }
+    .modal-mode-badge.mode-edit  { background: rgba(184,146,74,0.12); color: var(--gold); }
+    .modal-mode-badge.mode-add   { background: rgba(60,110,180,0.12); color: #6a9fd8; }
+    .modal-mode-badge.mode-delete{ background: rgba(180,60,60,0.12);  color: #d88080; }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(184,146,74,0.3); border-radius: 3px; }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-brand">
+      <div class="header-brand-dot"></div>
+      <span class="header-title">Athar</span>
+      <span class="header-sub">Menu Manager</span>
+    </div>
+    <div class="header-actions">
+      <div class="live-badge">
+        <div class="live-dot"></div>Live Sync
+      </div>
+      <a href="index.html" target="_blank" class="btn-view-site">View Site ↗</a>
+      <button class="btn-reset" onclick="resetAll()">Reset All</button>
+    </div>
+  </header>
+
+  <!-- STATUS -->
+  <div id="statusBar"></div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search menu items…" oninput="renderGrid()">
+    </div>
+    <div class="cat-filter" id="catFilter"></div>
+    <span class="count-badge" id="countBadge"></span>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="grid-wrap" id="gridWrap"></div>
+
+  <!-- ITEM MODAL -->
+  <div class="modal-bg" id="modalBg" onclick="handleModalBgClick(event)">
+    <div class="modal" id="modal">
+
+      <!-- Image preview strip -->
+      <div class="modal-preview" id="modalPreview">
+        <div class="modal-preview-placeholder" id="modalPreviewPlaceholder">No Image</div>
+        <img id="modalPreviewImg" src="" alt="" style="display:none;">
+        <!-- close btn -->
+        <button class="modal-close-btn" onclick="closeModal()" title="Close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-mode-badge mode-edit" id="modalModeBadge">✎ Edit Item</div>
+        <p class="modal-eyebrow" id="modalCat"></p>
+
+        <!-- Section tabs -->
+        <div class="modal-tabs">
+          <button class="modal-tab active" onclick="switchTab('details')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Details
+          </button>
+          <button class="modal-tab" onclick="switchTab('upload')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Upload
+          </button>
+          <button class="modal-tab" onclick="switchTab('url')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            URL
+          </button>
+        </div>
+
+        <!-- ── DETAILS TAB ── -->
+        <div class="tab-panel active" id="tab-details">
+          <div class="field-group">
+            <label class="field-label" for="editName">Item Name</label>
+            <input type="text" id="editName" class="field-input" placeholder="e.g. Espresso">
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="editDesc">Description</label>
+            <textarea id="editDesc" class="field-input field-textarea" placeholder="A short description…" rows="3"></textarea>
+          </div>
+          <div class="field-row">
+            <div class="field-group" style="flex:1">
+              <label class="field-label" for="editPrice">Price</label>
+              <input type="text" id="editPrice" class="field-input" placeholder="e.g. 85 EGP">
+            </div>
+            <div class="field-group" style="flex:1">
+              <label class="field-label" for="editCat">Category</label>
+              <select id="editCat" class="field-input field-select">
+                <option value="Hot Drinks">Hot Drinks</option>
+                <option value="Iced Coffee">Iced Coffee</option>
+                <option value="Coffee Blended">Coffee Blended</option>
+                <option value="Non-Coffee Blended">Non-Coffee Blended</option>
+                <option value="Milkshakes">Milkshakes</option>
+                <option value="Fresh Juice">Fresh Juice</option>
+                <option value="Refreshers">Refreshers</option>
+                <option value="Matcha">Matcha</option>
+                <option value="Tea">Tea</option>
+                <option value="Breakfast">Breakfast</option>
+                <option value="Desserts">Desserts</option>
+                <option value="Extras">Extras</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-actions" id="detailsActions">
+            <button class="btn-apply" id="btnSaveDetails" onclick="applyDetails()">Save Details</button>
+            <button class="btn-clear" id="btnResetDetails" onclick="clearDetails()">Reset</button>
+            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+          </div>
+        </div>
+
+        <!-- ── UPLOAD TAB ── -->
+        <div class="tab-panel" id="tab-upload">
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)">
+            <div class="upload-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <p>Drop image here or click to browse</p>
+            <span>JPG, PNG, WEBP — any size</span>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-apply" id="btnApply" onclick="applyImage()">Save Image</button>
+            <button class="btn-clear" onclick="clearImage()">Remove Image</button>
+            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+          </div>
+        </div>
+
+        <!-- ── URL TAB ── -->
+        <div class="tab-panel" id="tab-url">
+          <div class="url-input-wrap">
+            <input type="text" id="urlInput" placeholder="https://images.unsplash.com/…" oninput="previewUrl()">
+          </div>
+          <p class="url-preview-note">Paste any image URL — Unsplash, your CDN, or a direct link.</p>
+          <div class="modal-actions">
+            <button class="btn-apply" onclick="applyImage()">Save Image</button>
+            <button class="btn-clear" onclick="clearImage()">Remove Image</button>
+            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ─── FULL MENU DATA ───
+    const menuData = [
+      {
+        cat: "Hot Drinks", name: "Espresso", desc: "Bold single-origin shot, rich and full-bodied.", price: "50 EGP",
+        img: "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Turkish Coffee", desc: "Traditional finely ground coffee, slow-simmered to perfection.", price: "45 EGP",
+        img: "https://images.unsplash.com/photo-1578374173705-969cbe6f2d6b?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Americano", desc: "Espresso diluted with hot water for a smooth, long cup.", price: "60 EGP",
+        img: "https://images.unsplash.com/photo-1521302200778-33500795e128?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Macchiato", desc: "Espresso topped with a small dollop of foam.", price: "60 EGP",
+        img: "https://images.unsplash.com/photo-1485808191679-5f86510bd652?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Cortado", desc: "Equal parts espresso and warm steamed milk.", price: "65 EGP",
+        img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Flat White", desc: "Ristretto double shot with silky microfoam — bold and smooth.", price: "85 EGP",
+        img: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Hot Chocolate", desc: "Rich, velvety hot chocolate made with premium cocoa.", price: "85 EGP",
+        img: "https://images.unsplash.com/photo-1542990253-a781e3ec2b6f?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Cappuccino", desc: "Double espresso with equal parts steamed milk and velvety foam.", price: "80 EGP",
+        img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "French Coffee", desc: "Rich and aromatic French-press style coffee.", price: "55 EGP",
+        img: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Hazelnut Coffee", desc: "Espresso with a warm, nutty hazelnut twist.", price: "60 EGP",
+        img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Hot Latte", desc: "Espresso and silky steamed milk in perfect balance.", price: "85 EGP",
+        img: "https://images.unsplash.com/photo-1561047029-3000c68339ca?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Hot Spanish Latte", desc: "Espresso with condensed milk for a creamy, sweet kick.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1622597467836-f3e6707b7ff8?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Hot Mocha", desc: "Espresso, chocolate, and steamed milk — indulgent and rich.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Hot White Mocha", desc: "White chocolate, espresso, and steamed milk — dreamy and sweet.", price: "110 EGP",
+        img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Espresso Alferado", desc: "A bold espresso float over cold cream — unique and refreshing.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Con Panna Espresso", desc: "Espresso crowned with a generous swirl of whipped cream.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1517256673644-36ad11246d21?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Hot Salted Caramel Latte", desc: "Sweet caramel with a pinch of sea salt over espresso and milk.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1579888944880-d98341245702?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Hot Caramel Macchiato", desc: "Vanilla-scented milk, espresso, and caramel drizzle.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Hot Spicy Spanish Latte", desc: "Spanish latte with a warm spicy kick — bold and addictive.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1568649929103-28ffb3fa53a6?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Hot Peanut Butter Latte", desc: "Nutty, creamy peanut butter blended into a latte.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=600&q=80"
+      },
+      {
+        cat: "Hot Drinks", name: "Hot Pistachio Latte", desc: "Aromatic pistachio syrup with espresso and steamed milk.", price: "130 EGP",
+        img: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=80"
+      },
+      {
+        cat: "Iced Coffee", name: "Iced Americano", desc: "Espresso over ice — clean, crisp, and energising.", price: "75 EGP",
+        img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80"
+      },
+      {
+        cat: "Iced Coffee", name: "Iced Macchiato", desc: "Bold and creamy iced macchiato with rich espresso layered over chilled milk.", price: "75 EGP",
+        img: "https://images.unsplash.com/photo-1534778101976-62847782c213?w=600&q=80"
+      },
+      {
+        cat: "Iced Coffee", name: "Iced Latte", desc: "Chilled espresso with cold milk over a bed of ice.", price: "90 EGP",
+        img: "https://images.unsplash.com/photo-1582197329436-9b45ccd9b2b5?w=600&q=80"
+      },
+      {
+        cat: "Iced Coffee", name: "Iced Spanish Latte", desc: "Condensed milk and espresso on ice — sweet and creamy.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?w=600&q=80"
+      },
+      {
+        cat: "Iced Coffee", name: "Iced Salted Caramel", desc: "Smooth chilled coffee, rich buttery caramel, and a hint of sea salt.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1593790012132-e2e96efed22e?w=600&q=80"
+      },
+      {
+        cat: "Iced Coffee", name: "Iced Mocha", desc: "Espresso, chocolate sauce, and milk — chilled and luscious.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80"
+      },
+      {
+        cat: "Iced Coffee", name: "Iced Caramel Macchiato", desc: "Layered vanilla milk, espresso, and caramel drizzle over ice.", price: "110 EGP",
+        img: "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=600&q=80"
+      },
+      {
+        cat: "Iced Coffee", name: "Iced Pistachio Latte", desc: "Creamy espresso with sweet nutty pistachio and milk over ice.", price: "130 EGP",
+        img: "https://images.unsplash.com/photo-1648920035823-7a62f1e53545?w=600&q=80"
+      },
+      {
+        cat: "Coffee Blended", name: "Salted Caramel Coffee", desc: "Blended espresso with caramel and a touch of sea salt.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=600&q=80"
+      },
+      {
+        cat: "Coffee Blended", name: "Spanish Coffee", desc: "Classic Spanish latte blended into a creamy frozen treat.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1529892485617-25f63cd7b1e9?w=600&q=80"
+      },
+      {
+        cat: "Coffee Blended", name: "Spicy Spanish Coffee", desc: "A spicy twist on the Spanish latte — blended and bold.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=600&q=80"
+      },
+      {
+        cat: "Coffee Blended", name: "White Mocha Coffee", desc: "White chocolate and espresso blended into a frosty delight.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=600&q=80"
+      },
+      {
+        cat: "Coffee Blended", name: "Peanut Butter Coffee", desc: "Creamy peanut butter and espresso blended with ice.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=80"
+      },
+      {
+        cat: "Non-Coffee Blended", name: "Vanilla Classic Blend", desc: "Smooth vanilla blended coffee — a timeless classic.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?w=600&q=80"
+      },
+      {
+        cat: "Non-Coffee Blended", name: "Caramel Blend", desc: "Creamy caramel blended with ice and milk for a smooth frozen treat.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1605944797578-cfa5052e3803?w=600&q=80"
+      },
+      {
+        cat: "Non-Coffee Blended", name: "Chocolate Blend", desc: "Rich chocolate blended with ice and milk for an indulgent frozen treat.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=600&q=80"
+      },
+      {
+        cat: "Non-Coffee Blended", name: "Piña Colada Blend", desc: "Tropical pineapple and creamy coconut blended with ice.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?w=600&q=80"
+      },
+      {
+        cat: "Non-Coffee Blended", name: "Pistachio Blend", desc: "The premium combo — pistachio and matcha, blended over ice.", price: "130 EGP",
+        img: "https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=600&q=80"
+      },
+      {
+        cat: "Milkshakes", name: "Mango Milkshake", desc: "Thick and tropical mango shake, velvety and refreshing.", price: "95 EGP",
+        img: "https://images.unsplash.com/photo-1605371924599-2d0365da1ae0?w=600&q=80"
+      },
+      {
+        cat: "Milkshakes", name: "Strawberry Milkshake", desc: "Sweet and creamy strawberry shake made with real fruit.", price: "95 EGP",
+        img: "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=600&q=80"
+      },
+      {
+        cat: "Milkshakes", name: "Blueberry Milkshake", desc: "Rich blueberry shake with a deep, fruity flavour.", price: "95 EGP",
+        img: "https://images.unsplash.com/photo-1615478503562-ec2d8aa0e24e?w=600&q=80"
+      },
+      {
+        cat: "Milkshakes", name: "Chocolate Milkshake", desc: "Classic chocolate shake — thick, creamy, and indulgent.", price: "95 EGP",
+        img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&q=80"
+      },
+      {
+        cat: "Milkshakes", name: "Oreo Milkshake", desc: "Crushed Oreos blended into a silky, dreamy shake.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1586917049352-3c4aac24f7b8?w=600&q=80"
+      },
+      {
+        cat: "Milkshakes", name: "Pistachio Milkshake", desc: "Premium pistachio shake — aromatic and luxuriously creamy.", price: "120 EGP",
+        img: "https://images.unsplash.com/photo-1502741224143-90386d7f8c82?w=600&q=80"
+      },
+      {
+        cat: "Milkshakes", name: "ATHAR Premium Shake", desc: "Our signature premium blend — a café secret worth trying.", price: "120 EGP",
+        img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80"
+      },
+      {
+        cat: "Fresh Juice", name: "Orange Juice", desc: "Freshly squeezed orange — bright, tropical, and naturally sweet.", price: "55 EGP",
+        img: "https://images.unsplash.com/photo-1534353473418-4cfa0e1e11b7?w=600&q=80"
+      },
+      {
+        cat: "Fresh Juice", name: "Guava Juice", desc: "A sweet and tropical guava juice bursting with refreshing flavour.", price: "65 EGP",
+        img: "https://images.unsplash.com/photo-1568909344668-6f14a07b56a0?w=600&q=80"
+      },
+      {
+        cat: "Fresh Juice", name: "Lemon Mint", desc: "Freshly squeezed lemon with cool mint — the ultimate refresher.", price: "70 EGP",
+        img: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80"
+      },
+      {
+        cat: "Fresh Juice", name: "Mango Juice", desc: "Freshly squeezed mango — bright, tropical, and naturally sweet.", price: "75 EGP",
+        img: "https://images.unsplash.com/photo-1546173159-315724a31696?w=600&q=80"
+      },
+      {
+        cat: "Fresh Juice", name: "Strawberry Juice", desc: "Pure fresh strawberries pressed into a vibrant, sweet juice.", price: "75 EGP",
+        img: "https://images.unsplash.com/photo-1495478137967-e7cbe7ebf5b7?w=600&q=80"
+      },
+      {
+        cat: "Fresh Juice", name: "Strawberry Vanilla", desc: "Sweet strawberry and creamy vanilla blended with ice.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1570696516188-ade861b84a49?w=600&q=80"
+      },
+      {
+        cat: "Refreshers", name: "Sunshine", desc: "A bright citrus refresher that wakes up your senses.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&q=80"
+      },
+      {
+        cat: "Refreshers", name: "Sunrise", desc: "A layered citrus and berry refresher — beautiful and bold.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1609258396839-40e2a374cdae?w=600&q=80"
+      },
+      {
+        cat: "Refreshers", name: "Jelly Cola", desc: "Icy cold mint refresher — clean and invigorating.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=600&q=80"
+      },
+      {
+        cat: "Refreshers", name: "Mojito", desc: "Lime, mint, and soda — the classic non-alcoholic mojito.", price: "80 EGP",
+        img: "https://images.unsplash.com/photo-1571950006418-f26b66c56fba?w=600&q=80"
+      },
+      {
+        cat: "Refreshers", name: "Pineapple Lemon", desc: "Sweet pineapple and zesty lemon with a vibrant Blue Curaçao layer.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1587393855524-087f83d95bc9?w=600&q=80"
+      },
+      {
+        cat: "Refreshers", name: "Double Gum", desc: "Watermelon, fresh strawberry, and minty mojito — vibrant and cooling.", price: "120 EGP",
+        img: "https://images.unsplash.com/photo-1497534446932-c925b458314e?w=600&q=80"
+      },
+      {
+        cat: "Refreshers", name: "Energy Mojito", desc: "Mojito with Red Bull — refreshing with a buzz.", price: "130 EGP",
+        img: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=600&q=80"
+      },
+      {
+        cat: "Refreshers", name: "Water", desc: "Still mineral water — pure and simple.", price: "10 EGP",
+        img: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=600&q=80"
+      },
+      {
+        cat: "Matcha", name: "Hot Matcha", desc: "Ceremonial grade matcha whisked with steamed oat milk.", price: "90 EGP",
+        img: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=600&q=80"
+      },
+      {
+        cat: "Matcha", name: "Iced Matcha", desc: "Chilled matcha over ice — earthy, smooth, and energising.", price: "90 EGP",
+        img: "https://images.unsplash.com/photo-1610874696409-2e71b17a7a70?w=600&q=80"
+      },
+      {
+        cat: "Matcha", name: "Strawberry Matcha", desc: "A smooth blend of earthy matcha and sweet strawberry.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=600&q=80"
+      },
+      {
+        cat: "Matcha", name: "Iced Spanish Matcha", desc: "Matcha with condensed milk on ice — sweet and indulgent.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1615615228002-890bb61cac6e?w=600&q=80"
+      },
+      {
+        cat: "Matcha", name: "Matcha Blended", desc: "Blended matcha frappe — icy cold and vibrantly green.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1582396269698-0b99de6a1a24?w=600&q=80"
+      },
+      {
+        cat: "Matcha", name: "Spanish Matcha Blended", desc: "Condensed milk and matcha blended with ice — rich and creamy.", price: "100 EGP",
+        img: "https://images.unsplash.com/photo-1548455850-74c48b05e5af?w=600&q=80"
+      },
+      {
+        cat: "Matcha", name: "Salted Caramel Matcha Blended", desc: "Matcha meets salted caramel in this frozen luxurious blend.", price: "110 EGP",
+        img: "https://images.unsplash.com/photo-1605944797578-cfa5052e3803?w=600&q=80"
+      },
+      {
+        cat: "Matcha", name: "White Chocolate Matcha", desc: "White chocolate and matcha blended — sweet, creamy perfection.", price: "130 EGP",
+        img: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=600&q=80"
+      },
+      {
+        cat: "Matcha", name: "Pistachio Matcha Blended", desc: "The premium combo — pistachio and matcha, blended over ice.", price: "130 EGP",
+        img: "https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?w=600&q=80"
+      },
+      {
+        cat: "Tea", name: "Tea", desc: "Classic hot brewed tea — simple, warming, and comforting.", price: "35 EGP",
+        img: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&q=80"
+      },
+      {
+        cat: "Tea", name: "Ice Tea — Peach", desc: "Chilled peach-infused iced tea — fruity and perfectly sweet.", price: "60 EGP",
+        img: "https://images.unsplash.com/photo-1499638673689-79a0b5115d87?w=600&q=80"
+      },
+      {
+        cat: "Tea", name: "Ice Tea — Passion Fruit", desc: "Passion fruit iced tea — tangy, tropical, and refreshing.", price: "60 EGP",
+        img: "https://images.unsplash.com/photo-1587888637140-849b37ba2dc4?w=600&q=80"
+      },
+      {
+        cat: "Breakfast", name: "Plain Croissant", desc: "Buttery, flaky croissant baked to golden perfection.", price: "65 EGP",
+        img: ""
+      },
+      {
+        cat: "Breakfast", name: "Croissant Mix", desc: "A golden croissant filled with a delicious savoury mix — a perfect bite.", price: "95 EGP",
+        img: ""
+      },
+      {
+        cat: "Desserts", name: "Honey Cake", desc: "Layers of honey-soaked sponge — moist, sweet, and beautiful.", price: "80 EGP",
+        img: "https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=600&q=80"
+      },
+      {
+        cat: "Desserts", name: "Cheese Cake", desc: "Creamy classic cheesecake on a buttery biscuit base.", price: "80 EGP",
+        img: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&q=80"
+      },
+      {
+        cat: "Desserts", name: "Red Velvet Cake", desc: "Velvety red sponge with cream cheese frosting — iconic.", price: "90 EGP",
+        img: "https://images.unsplash.com/photo-1562440499-64c9a111f713?w=600&q=80"
+      },
+      {
+        cat: "Desserts", name: "Chocolate Brownie", desc: "Dense, fudgy brownie with a crinkly top — pure chocolate bliss.", price: "90 EGP",
+        img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&q=80"
+      },
+      {
+        cat: "Desserts", name: "Tiramisu", desc: "Classic Italian espresso dessert — light, creamy, and irresistible.", price: "90 EGP",
+        img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600&q=80"
+      },
+      {
+        cat: "Desserts", name: "Dark Molten Cake", desc: "Rich dark chocolate blended with a decadent, fudgy frozen treat.", price: "90 EGP",
+        img: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=600&q=80"
+      },
+      {
+        cat: "Desserts", name: "Nutella Molten Cake", desc: "Creamy Nutella blended into a rich chocolate-hazelnut frozen treat.", price: "120 EGP",
+        img: "https://images.unsplash.com/photo-1611329532992-0b7fa4c4d98e?w=600&q=80"
+      },
+      {
+        cat: "Extras", name: "Caramel", desc: "Add a drizzle of rich caramel to any drink.", price: "20 EGP",
+        img: "https://images.unsplash.com/photo-1561040359-21b5a6f5e06b?w=600&q=80"
+      },
+      {
+        cat: "Extras", name: "Nutella", desc: "A generous swirl of Nutella added to your order.", price: "25 EGP",
+        img: "https://images.unsplash.com/photo-1558301211-0d8c8ddee6ec?w=600&q=80"
+      },
+      {
+        cat: "Extras", name: "Milk", desc: "Add extra milk to your drink.", price: "25 EGP",
+        img: "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=600&q=80"
+      },
+      {
+        cat: "Extras", name: "Syrup", desc: "Your choice of flavour syrup.", price: "25 EGP",
+        img: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=600&q=80"
+      },
+      {
+        cat: "Extras", name: "Sauce", desc: "Add a sauce topping to your drink.", price: "25 EGP",
+        img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=80"
+      },
+      {
+        cat: "Extras", name: "Ice Cream", desc: "Add a scoop of ice cream.", price: "25 EGP",
+        img: "https://images.unsplash.com/photo-1567206563114-c179706688d4?w=600&q=80"
+      },
+      {
+        cat: "Extras", name: "Pistachio", desc: "Premium pistachio syrup or topping added to your drink.", price: "35 EGP",
+        img: "https://images.unsplash.com/photo-1617957689233-207e3cd3c610?w=600&q=80"
+      },
+    ];
+
+    // ─── IndexedDB SETUP ───
+    const DB_NAME    = "athar_db";
+    const DB_STORE   = "image_overrides";
+    const DB_DETAILS = "item_overrides";   // name / desc / price changes
+    const DB_ADDED   = "added_items";      // new items created in admin
+    const DB_DELETED = "deleted_items";    // items deleted in admin
+    const DB_VERSION = 3;
+    let db = null;
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        if (db) { resolve(db); return; }
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = e => {
+          const d = e.target.result;
+          if (!d.objectStoreNames.contains(DB_STORE))   d.createObjectStore(DB_STORE);
+          if (!d.objectStoreNames.contains(DB_DETAILS)) d.createObjectStore(DB_DETAILS);
+          if (!d.objectStoreNames.contains(DB_ADDED))   d.createObjectStore(DB_ADDED);
+          if (!d.objectStoreNames.contains(DB_DELETED)) d.createObjectStore(DB_DELETED);
+        };
+        req.onsuccess = e => { db = e.target.result; resolve(db); };
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    // ── generic helpers (store-agnostic) ──
+    function storeGet(storeName, key) {
+      return openDB().then(db => new Promise((resolve, reject) => {
+        const req = db.transaction(storeName, "readonly").objectStore(storeName).get(key);
+        req.onsuccess = () => resolve(req.result ?? null);
+        req.onerror  = () => reject(req.error);
+      }));
+    }
+    function storeSet(storeName, key, value) {
+      return openDB().then(db => new Promise((resolve, reject) => {
+        const req = db.transaction(storeName, "readwrite").objectStore(storeName).put(value, key);
+        req.onsuccess = () => resolve();
+        req.onerror  = () => reject(req.error);
+      }));
+    }
+    function storeDelete(storeName, key) {
+      return openDB().then(db => new Promise((resolve, reject) => {
+        const req = db.transaction(storeName, "readwrite").objectStore(storeName).delete(key);
+        req.onsuccess = () => resolve();
+        req.onerror  = () => reject(req.error);
+      }));
+    }
+    function storeGetAll(storeName) {
+      return openDB().then(db => new Promise((resolve, reject) => {
+        const store = db.transaction(storeName, "readonly").objectStore(storeName);
+        const keys = [], values = [];
+        const cursorReq = store.openCursor();
+        cursorReq.onsuccess = e => {
+          const cursor = e.target.result;
+          if (cursor) { keys.push(cursor.key); values.push(cursor.value); cursor.continue(); }
+          else { const obj = {}; keys.forEach((k,i) => obj[k] = values[i]); resolve(obj); }
+        };
+        cursorReq.onerror = () => reject();
+      }));
+    }
+    function storeClear(storeName) {
+      return openDB().then(db => new Promise((resolve, reject) => {
+        const req = db.transaction(storeName, "readwrite").objectStore(storeName).clear();
+        req.onsuccess = () => resolve();
+        req.onerror  = () => reject(req.error);
+      }));
+    }
+
+    // shorthand for image store (keeps old call sites working)
+    const dbGet    = (k)    => storeGet(DB_STORE, k);
+    const dbSet    = (k, v) => storeSet(DB_STORE, k, v);
+    const dbDelete = (k)    => storeDelete(DB_STORE, k);
+    const dbGetAll = ()     => storeGetAll(DB_STORE);
+    const dbClear  = ()     => storeClear(DB_STORE);
+
+    // Notify index.html of changes via localStorage flag
+    function notifyIndexPage() {
+      localStorage.setItem("athar_idb_updated", Date.now().toString());
+    }
+
+    // ─── STATE ───
+    const catColors = {
+      "Hot Drinks": { bg: "#4a2810", accent: "#c9a97a" },
+      "Iced Coffee": { bg: "#1a3040", accent: "#7ab8d4" },
+      "Coffee Blended": { bg: "#3a2010", accent: "#c4a060" },
+      "Non-Coffee Blended": { bg: "#1a2818", accent: "#8ac48a" },
+      "Milkshakes": { bg: "#3a1030", accent: "#d490b0" },
+      "Fresh Juice": { bg: "#2a3010", accent: "#b0c860" },
+      "Refreshers": { bg: "#102830", accent: "#60c0c0" },
+      "Matcha": { bg: "#142814", accent: "#70b870" },
+      "Tea": { bg: "#301818", accent: "#c48050" },
+      "Breakfast": { bg: "#3a2808", accent: "#e8b860" },
+      "Desserts": { bg: "#2a1018", accent: "#c06880" },
+      "Extras": { bg: "#282010", accent: "#b8924a" },
+    };
+
+    let overrides = {};        // image overrides  { key: imgSrc }
+    let detailOverrides = {};  // detail overrides { key: {name,desc,price,cat} }
+    let addedItems = {};       // added items      { key: {cat,name,desc,price,img} }
+    let deletedKeys = {};      // deleted item keys { key: true }
+    let activeFilter = "All";
+    let activeItem = null;
+    let pendingDataUrl = null;
+    let activeTab = "details";
+    let modalMode = "edit";    // "edit" | "add"
+    let addingToCat = null;
+
+    const categories = ["All", ...Object.keys(catColors)];
+
+    // ─── INIT ───
+    async function _initBase() {
+      overrides = await dbGetAll();
+      buildCatFilter();
+      renderGrid();
+    }
+
+    function buildCatFilter() {
+      const wrap = document.getElementById("catFilter");
+      wrap.innerHTML = categories.map(c =>
+        `<button class="cat-chip ${c === "All" ? "active" : ""}" onclick="setFilter('${c}')">${c}</button>`
+      ).join("");
+    }
+
+    function setFilter(cat) {
+      activeFilter = cat;
+      document.querySelectorAll(".cat-chip").forEach(b => b.classList.toggle("active", b.textContent === cat));
+      renderGrid();
+    }
+
+    // ─── RENDER GRID ───
+    function renderGrid() {
+      const wrap = document.getElementById("gridWrap");
+      const q = document.getElementById("searchInput").value.trim().toLowerCase();
+
+      // Merge added items into menuData view (not in base menuData)
+      const allItems = [
+        ...menuData.filter(i => !deletedKeys[itemKey(i)]),
+        ...Object.values(addedItems)
+      ];
+
+      let items = activeFilter === "All" ? allItems : allItems.filter(i => i.cat === activeFilter);
+      if (q) items = items.filter(i => `${i.name} ${i.cat} ${i.desc}`.toLowerCase().includes(q));
+
+      document.getElementById("countBadge").textContent = `${items.length} item${items.length !== 1 ? "s" : ""}`;
+
+      // Group by category — preserve category order
+      const catOrder = [...Object.keys(catColors)];
+      const grouped = {};
+      items.forEach(item => {
+        if (!grouped[item.cat]) grouped[item.cat] = [];
+        grouped[item.cat].push(item);
+      });
+
+      // Also include empty categories (for add-only sections)
+      if (activeFilter !== "All") {
+        if (!grouped[activeFilter]) grouped[activeFilter] = [];
+      }
+
+      const sortedCats = Object.keys(grouped).sort((a, b) => {
+        const ai = catOrder.indexOf(a), bi = catOrder.indexOf(b);
+        return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+      });
+
+      if (!sortedCats.length) {
+        wrap.innerHTML = '<div class="menu-grid"><div class="empty-state">No items found.</div></div>';
+        return;
+      }
+
+      wrap.innerHTML = sortedCats.map(cat => {
+        const catItems = grouped[cat] || [];
+        return `
+          <div class="grid-section-title">${cat} <span style="color:var(--sand);font-size:0.6rem;">${catItems.length}</span></div>
+          <div class="menu-grid">
+            ${catItems.map(item => renderCard(item)).join("")}
+            <button class="add-item-btn" onclick="openAddModal('${cat.replace(/'/g,"\\'")}')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Item
+            </button>
+          </div>`;
+      }).join("");
+    }
+
+    function itemKey(item) {
+      return item.cat + "::" + item.name;
+    }
+
+    function renderCard(item) {
+      const key        = itemKey(item);
+      const isAdded    = !!addedItems[key];
+      const customImg  = overrides[key];
+      const customDet  = detailOverrides[key];
+      const imgSrc     = customImg || item.img;
+      const hasCustom  = !!customImg;
+      const hasDet     = !!customDet;
+      const col        = catColors[item.cat] || { bg: "#2e1a0e", accent: "#b8924a" };
+      const displayName  = (customDet && customDet.name)  || item.name;
+      const displayPrice = (customDet && customDet.price) || item.price;
+      const shortUrl   = imgSrc && imgSrc.startsWith("data:") ? "📎 Local file" : (imgSrc || "").replace("https://images.unsplash.com/", "unsplash/").replace(/\?.*/, "");
+
+      // Escape for inline onclick attrs
+      const eCat  = item.cat.replace(/'/g, "\\'");
+      const eName = item.name.replace(/'/g, "\\'");
+
+      return `
+    <div class="item-card ${hasCustom ? "has-custom" : ""} ${hasDet ? "has-details-change" : ""} ${isAdded ? "is-added" : ""}"
+         onclick="openModal('${eCat}', '${eName}')">
+      <div class="card-thumb" style="background:linear-gradient(145deg,${col.bg}ee,${col.bg}99);">
+        <img src="${imgSrc}" alt="${displayName}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="card-thumb-placeholder" style="display:none;">
+          <svg width="32" viewBox="0 0 40 56" fill="${col.accent}" opacity="0.5"><path d="M20 2 C13 11 7 18 7 28 C7 40 13 50 20 54 C27 50 33 40 33 28 C33 18 27 11 20 2Z"/></svg>
+        </div>
+        <div class="card-overlay">
+          <div class="overlay-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </div>
+          <span class="overlay-label">Edit Item</span>
+        </div>
+        <!-- Delete button -->
+        <button class="card-delete-btn" onclick="event.stopPropagation(); deleteItem('${eCat}', '${eName}')" title="Delete item">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        </button>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">${item.cat}</div>
+        <div class="card-name" style="${hasDet && customDet.name ? 'color:var(--gold)' : ''}">${displayName}</div>
+        <div class="card-img-url" style="display:flex;justify-content:space-between;align-items:center;gap:4px;">
+          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${shortUrl}</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:0.78rem;color:var(--gold);font-style:italic;flex-shrink:0;">${displayPrice}</span>
+        </div>
+      </div>
+    </div>`;
+    }
+
+    // ─── MODAL — EDIT MODE ───
+    function openModal(cat, name) {
+      // Check both base menuData and addedItems
+      const allItems = [...menuData, ...Object.values(addedItems)];
+      activeItem = allItems.find(i => i.cat === cat && i.name === name);
+      if (!activeItem) return;
+      modalMode = "edit";
+
+      const key       = itemKey(activeItem);
+      const customImg = overrides[key];
+      const customDet = detailOverrides[key] || {};
+      const imgSrc    = customImg || activeItem.img;
+
+      updateModalPreview(imgSrc);
+      document.getElementById("modalCat").textContent = activeItem.cat;
+
+      // Mode badge
+      const badge = document.getElementById("modalModeBadge");
+      badge.textContent = "✎ Edit Item";
+      badge.className   = "modal-mode-badge mode-edit";
+
+      // Details tab
+      document.getElementById("editName").value  = customDet.name  ?? activeItem.name;
+      document.getElementById("editDesc").value  = customDet.desc  ?? activeItem.desc;
+      document.getElementById("editPrice").value = customDet.price ?? activeItem.price;
+      document.getElementById("editCat").value   = customDet.cat   ?? activeItem.cat;
+
+      // Buttons
+      document.getElementById("btnSaveDetails").textContent  = "Save Details";
+      document.getElementById("btnResetDetails").style.display = "";
+
+      // Image tabs
+      document.getElementById("fileInput").value = "";
+      document.getElementById("urlInput").value  = imgSrc && !imgSrc.startsWith("data:") ? imgSrc : "";
+      pendingDataUrl = null;
+
+      switchTab("details");
+      document.getElementById("modalBg").classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    // ─── MODAL — ADD MODE ───
+    function openAddModal(cat) {
+      modalMode    = "add";
+      addingToCat  = cat;
+      activeItem   = null;
+
+      updateModalPreview("");
+      document.getElementById("modalCat").textContent = cat;
+
+      const badge = document.getElementById("modalModeBadge");
+      badge.textContent = "+ New Item";
+      badge.className   = "modal-mode-badge mode-add";
+
+      // Clear details fields
+      document.getElementById("editName").value  = "";
+      document.getElementById("editDesc").value  = "";
+      document.getElementById("editPrice").value = "";
+      document.getElementById("editCat").value   = cat;
+
+      // Buttons
+      document.getElementById("btnSaveDetails").textContent  = "Add Item";
+      document.getElementById("btnResetDetails").style.display = "none";
+
+      // Image tabs
+      document.getElementById("fileInput").value = "";
+      document.getElementById("urlInput").value  = "";
+      pendingDataUrl = null;
+
+      switchTab("details");
+      document.getElementById("modalBg").classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    // ─── DELETE ITEM ───
+    async function deleteItem(cat, name) {
+      const allItems = [...menuData, ...Object.values(addedItems)];
+      const item = allItems.find(i => i.cat === cat && i.name === name);
+      if (!item) return;
+
+      const displayName = item.name;
+      if (!confirm(`Delete "${displayName}" from the menu? This cannot be undone.`)) return;
+
+      const key    = itemKey(item);
+      const isNew  = !!addedItems[key];
+
+      if (isNew) {
+        // It's an admin-added item — just remove from addedItems store
+        await storeDelete(DB_ADDED, key);
+        delete addedItems[key];
+        // Also clean up any overrides for it
+        await storeDelete(DB_STORE, key);
+        await storeDelete(DB_DETAILS, key);
+        delete overrides[key];
+        delete detailOverrides[key];
+      } else {
+        // It's a base item — mark as deleted
+        await storeSet(DB_DELETED, key, true);
+        deletedKeys[key] = true;
+        // Also clean up any overrides
+        await storeDelete(DB_STORE, key);
+        await storeDelete(DB_DETAILS, key);
+        delete overrides[key];
+        delete detailOverrides[key];
+      }
+
+      notifyIndexPage();
+      renderGrid();
+      showStatus(`"${displayName}" removed from the menu.`, "success");
+    }
+
+    function closeModal() {
+      document.getElementById("modalBg").classList.remove("open");
+      document.body.style.overflow = "";
+      activeItem = null;
+      pendingDataUrl = null;
+    }
+
+    function handleModalBgClick(e) {
+      if (e.target === document.getElementById("modalBg")) closeModal();
+    }
+
+    function updateModalPreview(src) {
+      const img = document.getElementById("modalPreviewImg");
+      const ph  = document.getElementById("modalPreviewPlaceholder");
+      if (src) { img.src = src; img.style.display = "block"; ph.style.display = "none"; }
+      else     { img.style.display = "none"; ph.style.display = "flex"; }
+    }
+
+    function switchTab(tab) {
+      activeTab = tab;
+      const tabOrder = ["details", "upload", "url"];
+      document.querySelectorAll(".modal-tab").forEach((b, i) => b.classList.toggle("active", tabOrder[i] === tab));
+      tabOrder.forEach(t => {
+        const el = document.getElementById("tab-" + t);
+        if (el) el.classList.toggle("active", t === tab);
+      });
+    }
+
+    // ─── APPLY DETAILS ───
+    async function applyDetails() {
+      const name  = document.getElementById("editName").value.trim();
+      const desc  = document.getElementById("editDesc").value.trim();
+      const price = document.getElementById("editPrice").value.trim();
+      const cat   = document.getElementById("editCat").value;
+
+      if (!name)  { showStatus("Name cannot be empty.", "error"); return; }
+      if (!price) { showStatus("Price cannot be empty.", "error"); return; }
+
+      // ── ADD MODE ──
+      if (modalMode === "add") {
+        const newItem = { cat, name, desc, price, img: pendingDataUrl || document.getElementById("urlInput").value.trim() || "" };
+        const key = cat + "::" + name;
+        // Prevent duplicate keys
+        if (addedItems[key] || menuData.some(i => itemKey(i) === key)) {
+          showStatus(`An item named "${name}" already exists in ${cat}.`, "error"); return;
+        }
+        try {
+          await storeSet(DB_ADDED, key, newItem);
+          if (newItem.img) await storeSet(DB_STORE, key, newItem.img);
+          addedItems[key] = newItem;
+          notifyIndexPage();
+          closeModal();
+          renderGrid();
+          showStatus(`✓ "${name}" added to ${cat} — live on the main page now.`, "success");
+        } catch (e) {
+          showStatus("Could not save new item.", "error");
+        }
+        return;
+      }
+
+      // ── EDIT MODE ──
+      if (!activeItem) return;
+      const key = itemKey(activeItem);
+      const details = { name, desc, price, cat };
+      try {
+        await storeSet(DB_DETAILS, key, details);
+        detailOverrides[key] = details;
+        // Also update the live menuData so the grid reflects changes immediately
+        const idx = menuData.findIndex(i => i.cat === activeItem.cat && i.name === activeItem.name);
+        if (idx !== -1) {
+          menuData[idx] = { ...menuData[idx], name, desc, price, cat };
+        }
+        // If it's an added item, update addedItems too
+        if (addedItems[key]) {
+          addedItems[key] = { ...addedItems[key], ...details };
+          await storeSet(DB_ADDED, key, addedItems[key]);
+        }
+        notifyIndexPage();
+        closeModal();
+        renderGrid();
+        showStatus(`✓ "${name}" updated — live on the main page now.`, "success");
+      } catch (e) {
+        showStatus("Could not save changes.", "error");
+      }
+    }
+
+    async function clearDetails() {
+      if (!activeItem) return;
+      const key = itemKey(activeItem);
+      await storeDelete(DB_DETAILS, key);
+      delete detailOverrides[key];
+      // restore original from source data
+      const original = menuData.find(i => itemKey(i) === key);
+      if (original) {
+        document.getElementById("editName").value  = activeItem.name;
+        document.getElementById("editDesc").value  = activeItem.desc;
+        document.getElementById("editPrice").value = activeItem.price;
+        document.getElementById("editCat").value   = activeItem.cat;
+      }
+      notifyIndexPage();
+      closeModal();
+      renderGrid();
+      showStatus("Details reset to default.", "");
+    }
+
+    // ─── FILE UPLOAD ───
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        pendingDataUrl = ev.target.result;
+        updateModalPreview(pendingDataUrl);
+      };
+      reader.readAsDataURL(file);
+      const ext = file.name.split(".").pop();
+      if (!document.getElementById("filenameInput").value) {
+        document.getElementById("filenameInput").value = suggestFilename(activeItem.name, ext);
+      }
+    }
+
+    function suggestFilename(name, ext = "jpg") {
+      return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "." + ext;
+    }
+
+    // ─── URL PREVIEW ───
+    function previewUrl() {
+      const url = document.getElementById("urlInput").value.trim();
+      if (url) updateModalPreview(url);
+    }
+
+    // ─── APPLY — saves to IndexedDB ───
+    async function applyImage() {
+      if (!activeItem) return;
+
+      let finalImg = null;
+
+      if (activeTab === "upload") {
+        if (!pendingDataUrl) { showStatus("Please select an image file first.", "error"); return; }
+        finalImg = pendingDataUrl;
+      } else {
+        const url = document.getElementById("urlInput").value.trim();
+        if (!url) { showStatus("Please enter an image URL.", "error"); return; }
+        finalImg = url;
+      }
+
+      const key = itemKey(activeItem);
+      try {
+        await dbSet(key, finalImg);
+        overrides[key] = finalImg;
+        notifyIndexPage();
+        closeModal();
+        renderGrid();
+        showStatus(`✓ Image updated for "${activeItem.name}" — live on the main page now.`, "success");
+      } catch (e) {
+        showStatus("Storage error — could not save image.", "error");
+      }
+    }
+
+    async function clearImage() {
+      if (!activeItem) return;
+      const key = itemKey(activeItem);
+      await dbDelete(key);
+      delete overrides[key];
+      notifyIndexPage();
+      closeModal();
+      renderGrid();
+      showStatus(`Image reset to default for "${activeItem.name}".`, "");
+    }
+
+    // ─── RESET ALL ───
+    async function resetAll() {
+      const hasImg     = Object.keys(overrides).length;
+      const hasDet     = Object.keys(detailOverrides).length;
+      const hasAdded   = Object.keys(addedItems).length;
+      const hasDeleted = Object.keys(deletedKeys).length;
+      if (!hasImg && !hasDet && !hasAdded && !hasDeleted) { showStatus("Nothing to reset.", ""); return; }
+      if (!confirm("Reset ALL images, detail changes, added items, and deleted items back to defaults? This cannot be undone.")) return;
+      await dbClear();
+      await storeClear(DB_DETAILS);
+      await storeClear(DB_ADDED);
+      await storeClear(DB_DELETED);
+      overrides       = {};
+      detailOverrides = {};
+      addedItems      = {};
+      deletedKeys     = {};
+      notifyIndexPage();
+      renderGrid();
+      showStatus("Everything reset to defaults.", "");
+    }
+
+    // ─── STATUS ───
+    function showStatus(msg, type) {
+      const bar = document.getElementById("statusBar");
+      bar.textContent = msg;
+      bar.className = "show " + (type || "");
+      clearTimeout(bar._t);
+      bar._t = setTimeout(() => bar.classList.remove("show"), 4000);
+    }
+
+    // ─── DRAG AND DROP ───
+    const uploadZone = document.getElementById("uploadZone");
+    uploadZone.addEventListener("dragover", e => { e.preventDefault(); uploadZone.classList.add("drag-over"); });
+    uploadZone.addEventListener("dragleave", () => uploadZone.classList.remove("drag-over"));
+    uploadZone.addEventListener("drop", e => {
+      e.preventDefault();
+      uploadZone.classList.remove("drag-over");
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        document.getElementById("fileInput").files = dt.files;
+        handleFileSelect({ target: { files: dt.files } });
+      }
+    });
+
+    // ── SEED DEFAULT IMAGES INTO IndexedDB ──
+    // Pre-fills any item that has a default Unsplash URL but no custom override yet.
+    async function seedDefaultImages() {
+      await openDB();
+      const existing = await dbGetAll();
+      const tx = db.transaction(DB_STORE, "readwrite");
+      const store = tx.objectStore(DB_STORE);
+      let seeded = 0;
+      menuData.forEach(item => {
+        if (!item.img) return;                          // no default image — skip
+        const key = item.cat + "::" + item.name;
+        if (existing[key]) return;                     // already has a custom override — don't touch
+        store.put(item.img, key);
+        seeded++;
+      });
+      return new Promise((resolve, reject) => {
+        tx.oncomplete = () => resolve(seeded);
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    async function init() {
+      await openDB();
+      const seeded = await seedDefaultImages();
+      if (seeded > 0) notifyIndexPage();
+      overrides       = await dbGetAll();
+      detailOverrides = await storeGetAll(DB_DETAILS);
+      addedItems      = await storeGetAll(DB_ADDED);
+      deletedKeys     = await storeGetAll(DB_DELETED);
+      // Apply detail overrides to live menuData
+      Object.entries(detailOverrides).forEach(([key, det]) => {
+        const idx = menuData.findIndex(i => itemKey(i) === key);
+        if (idx !== -1) menuData[idx] = { ...menuData[idx], ...det };
+      });
+      buildCatFilter();
+      renderGrid();
+    }
+
+    init();
+  </script>
+</body>
+
+</html>

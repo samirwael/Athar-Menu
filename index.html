@@ -4,1124 +4,348 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ATHAR — Café Menu</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <title>ATHAR Café — Menu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Reem+Kufi:wght@400..700&display=swap"
-    rel="stylesheet" />
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="featured-spotlight.css">
+  <link rel="stylesheet" href="style-3d.css">
 </head>
 
 <body>
 
-  <!-- NOISE OVERLAY -->
-  <div class="noise"></div>
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">
+      <img src="athar-logo-brown-t.png" alt="ATHAR" class="nav-logo-img">
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <span class="nav-hours">Open Daily · 8am – 2am</span>
+    <button class="nav-admin-link" id="adminGearBtn" title="Admin" aria-label="Admin" style="background:none;border:none;padding:0;cursor:pointer;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </button>
+  </nav>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="header-inner">
-      <div class="logo">
-        <img src="athar-logo-brown.png" alt="ATHAR" class="logo-img" />
-        <div class="logo-sub-text">Café Menu</div>
+  <!-- ADMIN PASSWORD MODAL -->
+  <div id="adminModal" style="
+    display:none; position:fixed; inset:0; z-index:9999;
+    background:rgba(10,5,2,0.75); backdrop-filter:blur(6px);
+    align-items:center; justify-content:center;
+  ">
+    <div style="
+      background:linear-gradient(160deg,#2a1508,#1a0c05);
+      border:1px solid rgba(184,146,74,0.2);
+      border-radius:18px;
+      padding:40px 36px 32px;
+      width:320px;
+      box-shadow:0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(184,146,74,0.08);
+      text-align:center;
+      position:relative;
+    ">
+      <!-- Logo -->
+      <img src="athar-logo-light-t.png" alt="ATHAR" style="width:52px;margin-bottom:20px;opacity:0.85;filter:drop-shadow(0 0 10px rgba(184,146,74,0.3));">
+      <!-- Title -->
+      <p style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.28em;color:rgba(217,201,176,0.5);text-transform:uppercase;margin-bottom:6px;">Admin Access</p>
+      <h3 style="font-family:'Cinzel',serif;font-size:1.1rem;font-weight:400;color:#d9c9b0;margin-bottom:24px;letter-spacing:0.06em;">Enter Password</h3>
+      <!-- Input -->
+      <div style="position:relative;margin-bottom:8px;">
+        <input id="adminPasswordInput" type="password" placeholder="Password" autocomplete="current-password" style="
+          width:100%; box-sizing:border-box;
+          padding:12px 16px;
+          background:rgba(255,255,255,0.05);
+          border:1px solid rgba(217,201,176,0.15);
+          border-radius:10px;
+          color:#d9c9b0;
+          font-family:'Lato',sans-serif;
+          font-size:0.92rem;
+          letter-spacing:0.08em;
+          outline:none;
+          transition:border-color 0.2s;
+        ">
       </div>
-      <nav class="nav">
-        <a href="#menu">Menu</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
+      <!-- Error msg -->
+      <p id="adminError" style="
+        font-family:'Lato',sans-serif;font-size:0.75rem;
+        color:#c0624a;letter-spacing:0.04em;
+        min-height:18px;margin-bottom:16px;
+        opacity:0;transition:opacity 0.2s;
+      ">Incorrect password. Try again.</p>
+      <!-- Buttons -->
+      <button id="adminSubmitBtn" style="
+        width:100%;padding:12px;
+        background:linear-gradient(135deg,#b8924a,#8a6a2e);
+        border:none;border-radius:10px;
+        font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.22em;
+        color:#fff;cursor:pointer;
+        box-shadow:0 4px 16px rgba(184,146,74,0.25);
+        transition:opacity 0.2s,transform 0.2s;
+        margin-bottom:10px;
+      ">Enter</button>
+      <button id="adminCancelBtn" style="
+        width:100%;padding:10px;
+        background:transparent;
+        border:1px solid rgba(217,201,176,0.1);border-radius:10px;
+        font-family:'Lato',sans-serif;font-size:0.78rem;letter-spacing:0.06em;
+        color:rgba(217,201,176,0.4);cursor:pointer;
+        transition:border-color 0.2s,color 0.2s;
+      ">Cancel</button>
     </div>
-  </header>
+  </div>
+
+  <script>
+    (function () {
+      const ADMIN_PASSWORD = 'athar2026';
+
+      const gearBtn    = document.getElementById('adminGearBtn');
+      const modal      = document.getElementById('adminModal');
+      const input      = document.getElementById('adminPasswordInput');
+      const submitBtn  = document.getElementById('adminSubmitBtn');
+      const cancelBtn  = document.getElementById('adminCancelBtn');
+      const errorMsg   = document.getElementById('adminError');
+
+      function openModal() {
+        modal.style.display = 'flex';
+        input.value = '';
+        errorMsg.style.opacity = '0';
+        setTimeout(() => input.focus(), 80);
+      }
+
+      function closeModal() {
+        modal.style.display = 'none';
+        input.value = '';
+        errorMsg.style.opacity = '0';
+      }
+
+      function tryEnter() {
+        if (input.value === ADMIN_PASSWORD) {
+          closeModal();
+          window.open('admin.html', '_blank');
+        } else {
+          errorMsg.style.opacity = '1';
+          input.value = '';
+          input.style.borderColor = 'rgba(192,98,74,0.6)';
+          setTimeout(() => { input.style.borderColor = 'rgba(217,201,176,0.15)'; }, 1200);
+          input.focus();
+        }
+      }
+
+      gearBtn.addEventListener('click', openModal);
+      cancelBtn.addEventListener('click', closeModal);
+      submitBtn.addEventListener('click', tryEnter);
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryEnter(); });
+
+      // Close on backdrop click
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+      // Hover styles for submit
+      submitBtn.addEventListener('mouseenter', () => { submitBtn.style.opacity = '0.88'; submitBtn.style.transform = 'translateY(-1px)'; });
+      submitBtn.addEventListener('mouseleave', () => { submitBtn.style.opacity = '1';    submitBtn.style.transform = ''; });
+      cancelBtn.addEventListener('mouseenter', () => { cancelBtn.style.borderColor = 'rgba(217,201,176,0.25)'; cancelBtn.style.color = 'rgba(217,201,176,0.65)'; });
+      cancelBtn.addEventListener('mouseleave', () => { cancelBtn.style.borderColor = 'rgba(217,201,176,0.1)';  cancelBtn.style.color = 'rgba(217,201,176,0.4)'; });
+    })();
+  </script>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#hero">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
 
   <!-- HERO -->
-  <section class="hero">
-    <div class="hero-text">
-      <p class="hero-eyebrow">Open Daily · 8am – 2am</p>
-      <h1 class="hero-title">Crafted with<br /><em>Passion.</em></h1>
-      <div class="arabic-wrap">
-        <span class="arabic-line">كل قعدة لها ذكرى</span>
-        <span class="arabic-line">وكل ذكرى لها <img src="athar-logo-brown.png" alt="أثر" class="inline-logo" /></span>
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo-img">
+        <img src="athar-logo-light-t.png" alt="ATHAR Café">
       </div>
-      <div class="hero-divider"><span class="hero-dot"></span><span class="hero-line"></span><span
-          class="hero-dot"></span></div>
-      <p class="hero-transl">Every moment holds a memory · every memory holds an <em>Athar</em></p>
-      <a href="#menu" class="btn-primary">Explore the Menu</a>
-    </div>
-    <div class="hero-deco">
-      <!-- Faint logo watermark -->
-      <img src="athar-logo-brown.png" alt="" class="hero-backdrop" />
-      <!-- Concentric rings -->
-      <div class="rings-wrap">
-        <div class="ring rg1"></div>
-        <div class="ring rg2"></div>
-        <div class="ring rg3"></div>
-        <div class="ring rg4"></div>
-        <div class="ring rg5"></div>
-        <!-- Scattered dots -->
-        <div class="rdot" style="top:-178px;left:62px;width:9px;height:9px;opacity:.5;"></div>
-        <div class="rdot" style="top:-90px;left:-142px;width:6px;height:6px;opacity:.4;"></div>
-        <div class="rdot" style="top:58px;left:150px;width:5px;height:5px;opacity:.42;"></div>
-        <div class="rdot" style="top:105px;left:-78px;width:7px;height:7px;opacity:.32;"></div>
-        <div class="rdot" style="top:-255px;left:-38px;width:4px;height:4px;opacity:.28;"></div>
-        <!-- Center logo -->
-        <div class="ring-center">
-          <img src="athar-logo-black.png" alt="ATHAR" class="ring-logo" />
-        </div>
-      </div>
-      <!-- Cup + steam -->
-      <div class="cup-wrap">
-        <svg class="steam-svg" width="175" height="80" viewBox="0 0 175 80">
-          <g class="ws ws1">
-            <path d="M58 76 C50 58 62 44 52 28 C42 12 54 0 46 -16" fill="none" stroke="#a07858" stroke-width="2"
-              stroke-linecap="round" opacity=".58" />
-          </g>
-          <g class="ws ws2">
-            <path d="M87 74 C77 55 91 41 81 23 C71 5 84 -7 76 -25" fill="none" stroke="#b08868" stroke-width="2.4"
-              stroke-linecap="round" opacity=".52" />
-            <path d="M87 74 C97 56 85 42 95 25 C105 8 93 -4 100 -22" fill="none" stroke="#a07858" stroke-width="1.4"
-              stroke-linecap="round" opacity=".26" />
-          </g>
-          <g class="ws ws3">
-            <path d="M118 76 C110 58 121 44 113 28 C105 12 116 0 109 -16" fill="none" stroke="#a07858"
-              stroke-width="1.8" stroke-linecap="round" opacity=".42" />
-          </g>
-        </svg>
-        <svg class="cup-svg" width="175" height="65" viewBox="0 0 175 65">
-          <ellipse cx="87" cy="60" rx="64" ry="6" fill="#d0c4b0" opacity=".4" />
-          <path d="M26 18 L148 18 L137 52 Q130 58 87 58 Q44 58 37 52 Z" fill="#f0ebe2" stroke="#c4b090"
-            stroke-width="1.2" opacity=".85" />
-          <path d="M148 24 Q166 24 166 36 Q166 48 148 48" fill="none" stroke="#c4b090" stroke-width="1.8"
-            stroke-linecap="round" opacity=".55" />
-          <line x1="26" y1="18" x2="148" y2="18" stroke="#c4b090" stroke-width="1.4" opacity=".45" />
-          <ellipse cx="87" cy="18" rx="61" ry="7" fill="#7a5030" opacity=".22" />
-        </svg>
+      <p class="hero-tagline">Crafted with <em>Passion.</em></p>
+      <p class="hero-arabic">كل قعدة لها ذكرى · وكل ذكرى لها أثر</p>
+      <p class="hero-sub">Every moment holds a memory · every memory holds an <em>Athar</em></p>
+      <div class="hero-btns">
+        <a href="#menu" class="btn-primary">Explore the Menu</a>
       </div>
     </div>
+    <div class="hero-scroll"><span></span></div>
   </section>
 
-  <!-- FILTER TABS -->
-  <section class="menu-section" id="menu">
-    <div class="section-header">
-      <h2 class="section-title">Our Menu</h2>
-      <p class="section-sub">Everything made with love and the finest ingredients</p>
-    </div>
-    <div class="filter-tabs" id="filterTabs">
-  <button class="tab active" data-cat="all">All</button>
-  <button class="tab" data-cat="hot">Hot Drinks</button>
-  <button class="tab" data-cat="iced">Iced Coffee</button>
-  <button class="tab" data-cat="coffee-blended">Coffee Blended</button>
-  <button class="tab" data-cat="non-coffee-blended">Non-Coffee Blended</button>
-  <button class="tab" data-cat="milkshake">Milkshakes</button>
-  <button class="tab" data-cat="juice">Fresh Juice</button>
-  <button class="tab" data-cat="refresher">Refreshers</button>
-  <button class="tab" data-cat="matcha">Matcha</button>
-  <button class="tab" data-cat="tea">Tea</button>
-      <button class="tab" data-cat="breakfast">Breakfast</button>
-  <button class="tab" data-cat="dessert">Desserts</button>
-  <button class="tab" data-cat="extras">Extras</button>
-  
-</div>
+  <!-- FEATURED -->
+  <section class="featured-section reveal" id="featured">
+    <div class="featured-inner">
 
-    <!-- MENU GRID -->
-    <div class="menu-grid" id="menuGrid">
-
-      <!-- HOT DRINKS -->
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Espresso</h3>
-          <p class="card-desc">Bold single-origin shot, rich and full-bodied.</p>
-          <div class="card-footer"><span class="price">50 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Turkish Coffee</h3>
-          <p class="card-desc">Traditional finely ground coffee, slow-simmered to perfection.</p>
-          <div class="card-footer"><span class="price">45 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Americano</h3>
-          <p class="card-desc">Espresso diluted with hot water for a smooth, long cup.</p>
-          <div class="card-footer"><span class="price">60 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Macchiato</h3>
-          <p class="card-desc">Espresso topped with a small dollop of foam.</p>
-          <div class="card-footer"><span class="price">60 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Cortado</h3>
-          <p class="card-desc">Equal parts espresso and warm steamed milk.</p>
-          <div class="card-footer"><span class="price">65 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Flat White</h3>
-          <p class="card-desc">Ristretto double shot with silky microfoam — bold and smooth.</p>
-          <div class="card-footer"><span class="price">80 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Hot Chocolate</h3>
-          <p class="card-desc">Rich, velvety hot chocolate made with premium cocoa.</p>
-          <div class="card-footer"><span class="price">85 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Cappuccino</h3>
-          <p class="card-desc">Double espresso with equal parts steamed milk and velvety foam.</p>
-          <div class="card-footer"><span class="price">85 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">French Coffee</h3>
-          <p class="card-desc">Rich and aromatic French-press style coffee.</p>
-          <div class="card-footer"><span class="price">55 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Hazelnut Coffee</h3>
-          <p class="card-desc">Espresso with a warm, nutty hazelnut twist.</p>
-          <div class="card-footer"><span class="price">60 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Hot Latte</h3>
-          <p class="card-desc">Espresso and silky steamed milk in perfect balance.</p>
-          <div class="card-footer"><span class="price">85 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Hot Spanish Latte</h3>
-          <p class="card-desc">Espresso with condensed milk for a creamy, sweet kick.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Hot Mocha</h3>
-          <p class="card-desc">Espresso, chocolate, and steamed milk — indulgent and rich.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Hot White Mocha</h3>
-          <p class="card-desc">White chocolate, espresso, and steamed milk — dreamy and sweet.</p>
-          <div class="card-footer"><span class="price">110 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Espresso Alferado</h3>
-          <p class="card-desc">A bold espresso float over cold cream — unique and refreshing.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Con Panna Espresso</h3>
-          <p class="card-desc">Espresso crowned with a generous swirl of whipped cream.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Hot Salted Caramel Latte</h3>
-          <p class="card-desc">Sweet caramel with a pinch of sea salt over espresso and milk.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Hot Caramel Macchiato</h3>
-          <p class="card-desc">Vanilla-scented milk, espresso, and caramel drizzle.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Hot Spicy Spanish Latte</h3>
-          <p class="card-desc">Spanish latte with a warm spicy kick — bold and addictive.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Hot Peanut Butter Latte</h3>
-          <p class="card-desc">Nutty, creamy peanut butter blended into a latte.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="hot">
-        <div class="card-body"><span class="card-tag">Hot Drinks</span>
-          <h3 class="card-title">Hot Pistachio Latte</h3>
-          <p class="card-desc">Aromatic pistachio syrup with espresso and steamed milk.</p>
-          <div class="card-footer"><span class="price">130 EGP</span></div>
-        </div>
+      <!-- Header -->
+      <div class="fs-header">
+        <div class="section-label reveal-fade"><span>Featured</span></div>
+        <h2 class="fs-title reveal-up">Signature Picks</h2>
+        <p class="fs-sub reveal-up delay-1">Handpicked favourites guests keep coming back for.</p>
       </div>
 
-      <!-- ICED COFFEE -->
-      <div class="card" data-cat="iced">
-        <div class="card-body"><span class="card-tag">Iced Coffee</span>
-          <h3 class="card-title">Iced Americano</h3>
-          <p class="card-desc">Espresso over ice — clean, crisp, and energising.</p>
-          <div class="card-footer"><span class="price">75 EGP</span></div>
-        </div>
-      </div>
-       <div class="card" data-cat="iced">
-        <div class="card-body"><span class="card-tag">Iced Coffee</span>
-          <h3 class="card-title">Iced Macchiato</h3>
-          <p class="card-desc">A bold and creamy iced macchiato with rich espresso layered over chilled milk for a smooth, refreshing kick.</p>
-          <div class="card-footer"><span class="price">75 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="iced">
-        <div class="card-body"><span class="card-tag">Iced Coffee</span>
-          <h3 class="card-title">Iced Latte</h3>
-          <p class="card-desc">Chilled espresso with cold milk over a bed of ice.</p>
-          <div class="card-footer"><span class="price">90 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="iced">
-        <div class="card-body"><span class="card-tag">Iced Coffee</span>
-          <h3 class="card-title">Iced Spanish Latte</h3>
-          <p class="card-desc">Condensed milk and espresso on ice — sweet and creamy.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="iced">
-        <div class="card-body"><span class="card-tag">Iced Coffee</span>
-          <h3 class="card-title">Iced Salted Caramel</h3>
-          <p class="card-desc">Blend of smooth chilled coffee, rich buttery caramel, and a hint of sea salt for the
-            perfect sweet-savory sip.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="iced">
-        <div class="card-body"><span class="card-tag">Iced Coffee</span>
-          <h3 class="card-title">Iced Mocha</h3>
-          <p class="card-desc">Espresso, chocolate sauce, and milk — chilled and luscious.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="iced">
-        <div class="card-body"><span class="card-tag">Iced Coffee</span>
-          <h3 class="card-title">Iced Caramel Macchiato</h3>
-          <p class="card-desc">Layered vanilla milk, espresso, and caramel drizzle over ice.</p>
-          <div class="card-footer"><span class="price">110 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="iced">
-        <div class="card-body"><span class="card-tag">Iced Coffee</span>
-          <h3 class="card-title">Iced Pistachio Latte</h3>
-          <p class="card-desc">Creamy espresso with sweet nutty pistachio and milk over ice.</p>
-          <div class="card-footer"><span class="price">130 EGP</span></div>
-        </div>
-      </div>
+      <!-- Spotlight card -->
+      <div class="fs-spotlight" id="fsSpotlight">
 
-      <!-- COFFEE BLENDED -->
-      <div class="card" data-cat="coffee-blended">
-        <div class="card-body"><span class="card-tag">Coffee Blended</span>
-          <h3 class="card-title">Salted Caramel Coffee</h3>
-          <p class="card-desc">Blended espresso with caramel and a touch of sea salt.</p>
-          <div class="card-footer"><span class="price">110 EGP</span></div>
+        <!-- Image side -->
+        <div class="fs-img-wrap" id="fsImgWrap">
+          <div class="fs-img-bg"  id="fsImgBg"></div>
+          <img class="fs-img"     id="fsImg" src="" alt="" />
+          <div class="fs-img-placeholder" id="fsImgPlaceholder">
+            <svg width="48" viewBox="0 0 40 56" fill="rgba(217,201,176,0.25)"><path d="M20 2 C13 11 7 18 7 28 C7 40 13 50 20 54 C27 50 33 40 33 28 C33 18 27 11 20 2Z"/></svg>
+          </div>
+          <!-- Category badge -->
+          <div class="fs-badge" id="fsBadge"></div>
         </div>
-      </div>
-      <div class="card" data-cat="coffee-blended">
-        <div class="card-body"><span class="card-tag">Coffee Blended</span>
-          <h3 class="card-title">Spanish Coffee</h3>
-          <p class="card-desc">Classic Spanish latte blended into a creamy frozen treat.</p>
-          <div class="card-footer"><span class="price">110 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="coffee-blended">
-        <div class="card-body"><span class="card-tag">Coffee Blended</span>
-          <h3 class="card-title">Spicy Spanish Coffee</h3>
-          <p class="card-desc">A spicy twist on the Spanish latte — blended and bold.</p>
-          <div class="card-footer"><span class="price">110 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="coffee-blended">
-        <div class="card-body"><span class="card-tag">Coffee Blended</span>
-          <h3 class="card-title">White Mocha Coffee</h3>
-          <p class="card-desc">White chocolate and espresso blended into a frosty delight.</p>
-          <div class="card-footer"><span class="price">110 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="coffee-blended">
-        <div class="card-body"><span class="card-tag">Coffee Blended</span>
-          <h3 class="card-title">Peanut Butter Coffee</h3>
-          <p class="card-desc">Creamy peanut butter and espresso blended with ice.</p>
-          <div class="card-footer"><span class="price">110 EGP</span></div>
-        </div>
-      </div>
 
-      <!-- NON-COFFEE BLENDED -->
-      <div class="card" data-cat="non-coffee-blended">
-        <div class="card-body"><span class="card-tag">Non-Coffee Blended</span>
-          <h3 class="card-title">Vanilla Classic Blend</h3>
-          <p class="card-desc">Smooth vanilla blended coffee — a timeless classic.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="non-coffee-blended">
-        <div class="card-body"><span class="card-tag">Non-Coffee Blended</span>
-          <h3 class="card-title">Caramel Blend</h3>
-          <p class="card-desc">Creamy caramel blended with ice, espresso & milk for a smooth, nutty frozen treat.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="non-coffee-blended">
-        <div class="card-body"><span class="card-tag">Non-Coffee Blended</span>
-          <h3 class="card-title">Chocolate Blend</h3>
-          <p class="card-desc">Rich chocolate blended with ice, espresso & milk for a creamy, indulgent frozen treat.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="non-coffee-blended">
-        <div class="card-body"><span class="card-tag">Non-Coffee Blended</span>
-          <h3 class="card-title">Piña Colada Blend</h3>
-          <p class="card-desc">Tropical pineapple and creamy coconut blended with ice for a refreshing frozen treat.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="non-coffee-blended">
-        <div class="card-body"><span class="card-tag">Non-Coffee Blended</span>
-          <h3 class="card-title">Pistachio Blend</h3>
-          <p class="card-desc">The premium combo — pistachio and matcha, blended over ice.</p>
-          <div class="card-footer"><span class="price">130 EGP</span></div>
-        </div>
-      </div>
-
-      <!-- MILKSHAKES -->
-      <div class="card" data-cat="milkshake">
-        <div class="card-body"><span class="card-tag">Milkshakes</span>
-          <h3 class="card-title">Mango Milkshake</h3>
-          <p class="card-desc">Thick and tropical mango shake, velvety and refreshing.</p>
-          <div class="card-footer"><span class="price">95 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="milkshake">
-        <div class="card-body"><span class="card-tag">Milkshakes</span>
-          <h3 class="card-title">Strawberry Milkshake</h3>
-          <p class="card-desc">Sweet and creamy strawberry shake made with real fruit.</p>
-          <div class="card-footer"><span class="price">95 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="milkshake">
-        <div class="card-body"><span class="card-tag">Milkshakes</span>
-          <h3 class="card-title">Blueberry Milkshake</h3>
-          <p class="card-desc">Rich blueberry shake with a deep, fruity flavour.</p>
-          <div class="card-footer"><span class="price">95 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="milkshake">
-        <div class="card-body"><span class="card-tag">Milkshakes</span>
-          <h3 class="card-title">Chocolate Milkshake</h3>
-          <p class="card-desc">Classic chocolate shake — thick, creamy, and indulgent.</p>
-          <div class="card-footer"><span class="price">95 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="milkshake">
-        <div class="card-body"><span class="card-tag">Milkshakes</span>
-          <h3 class="card-title">Oreo Milkshake</h3>
-          <p class="card-desc">Crushed Oreos blended into a silky, dreamy shake.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="milkshake">
-        <div class="card-body"><span class="card-tag">Milkshakes</span>
-          <h3 class="card-title">Pistachio Milkshake</h3>
-          <p class="card-desc">Premium pistachio shake — aromatic and luxuriously creamy.</p>
-          <div class="card-footer"><span class="price">120 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="milkshake">
-        <div class="card-body"><span class="card-tag">Milkshakes</span>
-          <h3 class="card-title">ATHAR Premium Shake</h3>
-          <p class="card-desc">Our signature premium blend — a café secret worth trying.</p>
-          <div class="card-footer"><span class="price">120 EGP</span></div>
-        </div>
-      </div>
-
-      <!-- FRESH JUICE -->
-      <div class="card" data-cat="juice">
-        <div class="card-body"><span class="card-tag">Fresh Juice</span>
-          <h3 class="card-title">Orange Juice</h3>
-          <p class="card-desc">Freshly squeezed orange — bright, tropical, and naturally sweet.</p>
-          <div class="card-footer"><span class="price">55 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="juice">
-        <div class="card-body"><span class="card-tag">Fresh Juice</span>
-          <h3 class="card-title">Guava Juice</h3>
-          <p class="card-desc">A sweet and tropical guava juice bursting with refreshing flavor and natural fruity goodness.</p>
-          <div class="card-footer"><span class="price">65 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="juice">
-        <div class="card-body"><span class="card-tag">Fresh Juice</span>
-          <h3 class="card-title">Lemon Mint</h3>
-          <p class="card-desc">Freshly squeezed lemon with cool mint — the ultimate refresher.</p>
-          <div class="card-footer"><span class="price">70 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="juice">
-        <div class="card-body"><span class="card-tag">Fresh Juice</span>
-          <h3 class="card-title">Mango Juice</h3>
-          <p class="card-desc">Freshly squeezed mango — bright, tropical, and naturally sweet.</p>
-          <div class="card-footer"><span class="price">75 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="juice">
-        <div class="card-body"><span class="card-tag">Fresh Juice</span>
-          <h3 class="card-title">Strawberry Juice</h3>
-          <p class="card-desc">Pure fresh strawberries pressed into a vibrant, sweet juice.</p>
-          <div class="card-footer"><span class="price">75 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="juice">
-        <div class="card-body"><span class="card-tag">Fresh Juice</span>
-          <h3 class="card-title">Strawberry Vanilla</h3>
-          <p class="card-desc">Sweet strawberry and creamy vanilla blended with ice for a fruity, refreshing frozen treat.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-
-      <!-- REFRESHERS -->
-      <div class="card" data-cat="refresher">
-        <div class="card-body"><span class="card-tag">Refreshers</span>
-          <h3 class="card-title">Sunshine</h3>
-          <p class="card-desc">A bright citrus refresher that wakes up your senses.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="refresher">
-        <div class="card-body"><span class="card-tag">Refreshers</span>
-          <h3 class="card-title">Sunrise</h3>
-          <p class="card-desc">A layered citrus and berry refresher — beautiful and bold.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="refresher">
-        <div class="card-body"><span class="card-tag">Refreshers</span>
-          <h3 class="card-title">Jelly Cola</h3>
-          <p class="card-desc">Icy cold mint refresher — clean and invigorating.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="refresher">
-        <div class="card-body"><span class="card-tag">Refreshers</span>
-          <h3 class="card-title">Mojito</h3>
-          <p class="card-desc">Lime, mint, and soda — the classic non-alcoholic mojito.</p>
-          <div class="card-footer"><span class="price">80 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="refresher">
-        <div class="card-body"><span class="card-tag">Refreshers</span>
-          <h3 class="card-title">Pineapple Lemon</h3>
-          <p class="card-desc">Sweet pineapple and zesty lemon, finished with a vibrant Blue Curaçao layer for a tropical, eye-catching sip.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="refresher">
-        <div class="card-body"><span class="card-tag">Refreshers</span>
-          <h3 class="card-title">Double Gum</h3>
-          <p class="card-desc">A refreshing fusion of juicy watermelon, fresh strawberry, and minty mojito for a vibrant and cooling summer drink.</p>
-          <div class="card-footer"><span class="price">120 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="refresher">
-        <div class="card-body"><span class="card-tag">Refreshers</span>
-          <h3 class="card-title">Energy Mojito</h3>
-          <p class="card-desc">Mojito with an energy drink Red Bull — refreshing with a buzz.</p>
-          <div class="card-footer"><span class="price">130 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="refresher">
-        <div class="card-body"><span class="card-tag">Refreshers</span>
-          <h3 class="card-title">Water</h3>
-          <p class="card-desc">Still mineral water — pure and simple.</p>
-          <div class="card-footer"><span class="price">10 EGP</span></div>
-        </div>
-      </div>
-
-      <!-- MATCHA -->
-      <div class="card" data-cat="matcha">
-        <div class="card-body"><span class="card-tag">Matcha</span>
-          <h3 class="card-title">Hot Matcha</h3>
-          <p class="card-desc">Ceremonial grade matcha whisked with steamed oat milk.</p>
-          <div class="card-footer"><span class="price">90 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="matcha">
-        <div class="card-body"><span class="card-tag">Matcha</span>
-          <h3 class="card-title">Iced Matcha</h3>
-          <p class="card-desc">Chilled matcha over ice — earthy, smooth, and energising.</p>
-          <div class="card-footer"><span class="price">90 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="matcha">
-        <div class="card-body"><span class="card-tag">Matcha</span>
-          <h3 class="card-title">Strawberry Matcha</h3>
-          <p class="card-desc">A smooth blend of earthy matcha and sweet strawberry for a perfectly balanced and refreshing drink.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="matcha">
-        <div class="card-body"><span class="card-tag">Matcha</span>
-          <h3 class="card-title">Iced Spanish Matcha</h3>
-          <p class="card-desc">Matcha with condensed milk on ice — sweet and indulgent.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="matcha">
-        <div class="card-body"><span class="card-tag">Matcha</span>
-          <h3 class="card-title">Matcha Blended</h3>
-          <p class="card-desc">Blended matcha frappe — icy cold and vibrantly green.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="matcha">
-        <div class="card-body"><span class="card-tag">Matcha</span>
-          <h3 class="card-title">Spanish Matcha Blended</h3>
-          <p class="card-desc">Condensed milk and matcha blended with ice — rich and creamy.</p>
-          <div class="card-footer"><span class="price">100 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="matcha">
-        <div class="card-body"><span class="card-tag">Matcha</span>
-          <h3 class="card-title">Salted Caramel Matcha Blended</h3>
-          <p class="card-desc">Matcha meets salted caramel in this frozen luxurious blend.</p>
-          <div class="card-footer"><span class="price">110 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="matcha">
-        <div class="card-body"><span class="card-tag">Matcha</span>
-          <h3 class="card-title">White Chocolate Matcha</h3>
-          <p class="card-desc">White chocolate and matcha blended — sweet, creamy perfection.</p>
-          <div class="card-footer"><span class="price">130 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="matcha">
-        <div class="card-body"><span class="card-tag">Matcha</span>
-          <h3 class="card-title">Pistachio Matcha Blended</h3>
-          <p class="card-desc">The premium combo — pistachio and matcha, blended over ice.</p>
-          <div class="card-footer"><span class="price">130 EGP</span></div>
-        </div>
-      </div>
-
-      <!-- TEA -->
-      <div class="card" data-cat="tea">
-        <div class="card-body"><span class="card-tag">Tea</span>
-          <h3 class="card-title">Tea</h3>
-          <p class="card-desc">Classic hot brewed tea — simple, warming, and comforting.</p>
-          <div class="card-footer"><span class="price">35 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="tea">
-        <div class="card-body"><span class="card-tag">Tea</span>
-          <h3 class="card-title">Ice Tea - Peach</h3>
-          <p class="card-desc">Chilled peach-infused iced tea — fruity and perfectly sweet.</p>
-          <div class="card-footer"><span class="price">60 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="tea">
-        <div class="card-body"><span class="card-tag">Tea</span>
-          <h3 class="card-title">Ice Tea - Passion Fruit</h3>
-          <p class="card-desc">Passion fruit iced tea — tangy, tropical, and refreshing.</p>
-          <div class="card-footer"><span class="price">60 EGP</span></div>
-        </div>
-      </div>
-<!-- BREAKFAST -->
-<div class="card" data-cat="breakfast">
-  <div class="card-body"><span class="card-tag">Breakfast</span>
-    <h3 class="card-title">Plain Croissant</h3>
-    <p class="card-desc">Buttery, flaky croissant baked to golden perfection.</p>
-    <div class="card-footer"><span class="price">65 EGP</span></div>
-  </div>
-</div>
-<div class="card" data-cat="breakfast">
-  <div class="card-body"><span class="card-tag">Breakfast</span>
-    <h3 class="card-title">Croissant Mix</h3>
-    <p class="card-desc">A golden croissant filled with a delicious savoury mix — a perfect bite.</p>
-    <div class="card-footer"><span class="price">95 EGP</span></div>
-  </div>
-</div>
-      <!-- DESSERTS -->
-      <div class="card" data-cat="dessert">
-        <div class="card-body"><span class="card-tag">Desserts</span>
-          <h3 class="card-title">Honey Cake</h3>
-          <p class="card-desc">Layers of honey-soaked sponge — moist, sweet, and beautiful.</p>
-          <div class="card-footer"><span class="price">80 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="dessert">
-        <div class="card-body"><span class="card-tag">Desserts</span>
-          <h3 class="card-title">Cheese Cake</h3>
-          <p class="card-desc">Creamy classic cheesecake on a buttery biscuit base.</p>
-          <div class="card-footer"><span class="price">80 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="dessert">
-        <div class="card-body"><span class="card-tag">Desserts</span>
-          <h3 class="card-title">Red Velvet Cake</h3>
-          <p class="card-desc">Velvety red sponge with cream cheese frosting — iconic.</p>
-          <div class="card-footer"><span class="price">90 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="dessert">
-        <div class="card-body"><span class="card-tag">Desserts</span>
-          <h3 class="card-title">Chocolate Brownie</h3>
-          <p class="card-desc">Dense, fudgy brownie with a crinkly top — pure chocolate bliss.</p>
-          <div class="card-footer"><span class="price">90 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="dessert">
-        <div class="card-body"><span class="card-tag">Desserts</span>
-          <h3 class="card-title">Tiramisu</h3>
-          <p class="card-desc">Classic Italian espresso dessert — light, creamy, and irresistible.</p>
-          <div class="card-footer"><span class="price">90 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="dessert">
-        <div class="card-body"><span class="card-tag">Desserts</span>
-          <h3 class="card-title">Dark Molten Cake</h3>
-          <p class="card-desc">Rich dark chocolate blended with ice, espresso & milk for a decadent, fudgy frozen treat — divine.</p>
-          <div class="card-footer"><span class="price">90 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="dessert">
-        <div class="card-body"><span class="card-tag">Desserts</span>
-          <h3 class="card-title">Nutella Molten Cake</h3>
-          <p class="card-desc">Creamy Nutella blended with ice, espresso & milk for a rich, chocolate-hazelnut frozen treat — divine.</p>
-          <div class="card-footer"><span class="price">120 EGP</span></div>
-        </div>
-      </div>
-
-      <!-- EXTRAS -->
-      <div class="card" data-cat="extras">
-        <div class="card-body"><span class="card-tag">Extras</span>
-          <h3 class="card-title">Caramel</h3>
-          <p class="card-desc">Add a drizzle of rich caramel to any drink.</p>
-          <div class="card-footer"><span class="price">20 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="extras">
-        <div class="card-body"><span class="card-tag">Extras</span>
-          <h3 class="card-title">Nutella</h3>
-          <p class="card-desc">A generous swirl of Nutella added to your order.</p>
-          <div class="card-footer"><span class="price">25 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="extras">
-        <div class="card-body"><span class="card-tag">Extras</span>
-          <h3 class="card-title">Milk</h3>
-          <div class="card-footer"><span class="price">25 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="extras">
-        <div class="card-body"><span class="card-tag">Extras</span>
-          <h3 class="card-title">Syrup</h3>
-          <div class="card-footer"><span class="price">25 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="extras">
-        <div class="card-body"><span class="card-tag">Extras</span>
-          <h3 class="card-title">Sauce</h3>
-          <div class="card-footer"><span class="price">25 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="extras">
-        <div class="card-body"><span class="card-tag">Extras</span>
-          <h3 class="card-title">Ice Cream</h3>
-          <div class="card-footer"><span class="price">25 EGP</span></div>
-        </div>
-      </div>
-      <div class="card" data-cat="extras">
-        <div class="card-body"><span class="card-tag">Extras</span>
-          <h3 class="card-title">Pistachio</h3>
-          <p class="card-desc">Premium pistachio syrup or topping added to your drink.</p>
-          <div class="card-footer"><span class="price">35 EGP</span></div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- WALL PHOTO SECTION -->
-  <section class="wall-section">
-    <div class="wall-inner">
-      <div class="wall-img-wrap">
-
-        <style>
-          .athar-wall-design {
-            position: absolute;
-            inset: 0;
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-          }
-
-          .athar-wall-design .aw-dot-deco {
-            position: absolute;
-            border-radius: 50%;
-            background: var(--accent);
-            pointer-events: none;
-          }
-
-          .athar-wall-design .aw-deco-lines {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-          }
-
-          .athar-wall-design .aw-deco-lines svg {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-          }
-
-          .athar-wall-design .aw-frame {
-            margin: 24px;
-            border: 1px solid var(--border);
-            padding: 36px 32px;
-            position: relative;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-          }
-
-          .athar-wall-design .aw-corner {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-color: var(--accent);
-            border-style: solid;
-            opacity: 0.6;
-          }
-
-          .athar-wall-design .aw-corner.tl {
-            top: -1px;
-            left: -1px;
-            border-width: 2px 0 0 2px;
-          }
-
-          .athar-wall-design .aw-corner.tr {
-            top: -1px;
-            right: -1px;
-            border-width: 2px 2px 0 0;
-          }
-
-          .athar-wall-design .aw-corner.bl {
-            bottom: -1px;
-            left: -1px;
-            border-width: 0 0 2px 2px;
-          }
-
-          .athar-wall-design .aw-corner.br {
-            bottom: -1px;
-            right: -1px;
-            border-width: 0 2px 2px 0;
-          }
-
-          .athar-wall-design .aw-eyebrow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 28px;
-          }
-
-          .athar-wall-design .aw-eyebrow-line {
-            flex: 1;
-            max-width: 60px;
-            height: 1px;
-            background: var(--border);
-          }
-
-          .athar-wall-design .aw-eyebrow-text {
-            font-size: 0.65rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--accent);
-            font-weight: 500;
-          }
-
-          .athar-wall-design .aw-arabic-block {
-            direction: rtl;
-            text-align: center;
-            margin-bottom: 20px;
-          }
-
-          .athar-wall-design .aw-arabic-line {
-            font-family: 'Reem Kufi', sans-serif;
-            font-size: clamp(1.5rem, 3vw, 2.4rem);
-            color: var(--text);
-            font-weight: 600;
-            line-height: 1.9;
-            display: block;
-            letter-spacing: 0.01em;
-          }
-
-          .athar-wall-design .aw-highlight {
-            color: var(--accent);
-            font-weight: 700;
-            position: relative;
-          }
-
-          .athar-wall-design .aw-highlight::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gold);
-            opacity: 0.5;
-            border-radius: 1px;
-          }
-
-          .athar-wall-design .aw-ornament {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin: 16px 0;
-          }
-
-          .athar-wall-design .aw-orn-line {
-            width: 40px;
-            height: 1px;
-            background: var(--border);
-          }
-
-          .athar-wall-design .aw-orn-dot {
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: var(--muted);
-            opacity: 0.4;
-          }
-
-          .athar-wall-design .aw-orn-diamond {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            transform: rotate(45deg);
-            opacity: 0.5;
-          }
-
-          .athar-wall-design .aw-transl-wrap {
-            text-align: center;
-            direction: ltr;
-          }
-
-          .athar-wall-design .aw-transl {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-style: italic;
-            font-weight: 300;
-            font-size: clamp(0.9rem, 1.8vw, 1.15rem);
-            color: var(--muted);
-            line-height: 1.9;
-            letter-spacing: 0.02em;
-          }
-
-          .athar-wall-design .aw-transl em {
-            color: var(--accent);
-            font-style: italic;
-          }
-
-          .athar-wall-design .aw-bottom-tag {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 24px;
-          }
-
-          .athar-wall-design .aw-tag-line {
-            width: 28px;
-            height: 1px;
-            background: var(--border);
-          }
-
-          .athar-wall-design .aw-tag-text {
-            font-size: 0.62rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--muted);
-            opacity: 0.6;
-          }
-        </style>
-
-        <div class="athar-wall-design">
-          <div class="aw-dot-deco" style="width:6px;height:6px;top:14px;left:14px;opacity:.15;"></div>
-          <div class="aw-dot-deco" style="width:4px;height:4px;top:18px;right:18px;opacity:.12;"></div>
-          <div class="aw-dot-deco" style="width:5px;height:5px;bottom:16px;left:18px;opacity:.13;"></div>
-          <div class="aw-dot-deco" style="width:4px;height:4px;bottom:14px;right:14px;opacity:.1;"></div>
-          <div class="aw-deco-lines">
-            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="aw-cross-pat" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
-                  <line x1="16" y1="13" x2="16" y2="19" stroke="#c4622d" stroke-width="0.7" opacity="0.12" />
-                  <line x1="13" y1="16" x2="19" y2="16" stroke="#c4622d" stroke-width="0.7" opacity="0.12" />
-                </pattern>
-              </defs>
-              <rect width="400" height="300" fill="url(#aw-cross-pat)" />
+        <!-- Info side -->
+        <div class="fs-info" id="fsInfo">
+          <!-- Countdown ring sits in corner of info side -->
+          <div class="fs-ring-wrap" id="fsRingWrap" aria-hidden="true">
+            <svg class="fs-ring-svg" viewBox="0 0 44 44">
+              <circle class="fs-ring-track" cx="22" cy="22" r="18"/>
+              <circle class="fs-ring-prog"  cx="22" cy="22" r="18" id="fsRingProg"/>
             </svg>
+            <img src="athar-logo-light-t.png" alt="" class="fs-ring-logo">
           </div>
-          <div class="aw-frame">
-            <div class="aw-corner tl"></div>
-            <div class="aw-corner tr"></div>
-            <div class="aw-corner bl"></div>
-            <div class="aw-corner br"></div>
-            <div class="aw-eyebrow">
-              <div class="aw-eyebrow-line"></div>
-              <span class="aw-eyebrow-text">The Spirit of ATHAR</span>
-              <div class="aw-eyebrow-line"></div>
-            </div>
-            <div class="aw-arabic-block">
-              <span class="aw-arabic-line">كل قعدة لها <span class="aw-highlight">ذكرى</span></span>
-              <span class="aw-arabic-line">وكل ذكرى لها <span class="aw-highlight">اثر</span></span>
-            </div>
-            <div class="aw-ornament">
-              <div class="aw-orn-line"></div>
-              <div class="aw-orn-dot"></div>
-              <div class="aw-orn-diamond"></div>
-              <div class="aw-orn-dot"></div>
-              <div class="aw-orn-line"></div>
-            </div>
-            <div class="aw-transl-wrap">
-              <p class="aw-transl">
-                Every moment holds a memory<br>
-                every memory holds an <em>Athar</em>
-              </p>
-            </div>
-            <div class="aw-bottom-tag">
-              <div class="aw-tag-line"></div>
-              <span class="aw-tag-text">Est. 2020 · Cairo</span>
-              <div class="aw-tag-line"></div>
-            </div>
+
+          <p  class="fs-cat"   id="fsCat"></p>
+          <h3 class="fs-name"  id="fsName"></h3>
+          <p  class="fs-desc"  id="fsDesc"></p>
+          <p  class="fs-price" id="fsPrice"></p>
+
+          <!-- Controls -->
+          <div class="fs-controls">
+            <button class="fs-btn" id="fsPrev" aria-label="Previous">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <span class="fs-counter" id="fsCounter">1 / 1</span>
+            <button class="fs-btn" id="fsNext" aria-label="Next">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
           </div>
         </div>
-        <div class="wall-overlay"></div>
-      </div>
-    </div>
+
+      </div><!-- /fs-spotlight -->
+
+    </div><!-- /featured-inner -->
   </section>
 
-  <!-- ABOUT SECTION -->
-  <section class="about-section" id="about">
+  <!-- MENU -->
+  <section class="menu-section reveal" id="menu">
+    <div class="menu-header">
+      <div class="section-label"><span>Our Menu</span></div>
+      <p class="menu-sub">Everything made with love and the finest ingredients</p>
+    </div>
+    <div class="menu-tabs-wrapper">
+      <div class="menu-tabs" id="menuTabs">
+        <button class="tab active" data-cat="All">All</button>
+        <button class="tab" data-cat="Hot Drinks">Hot Drinks</button>
+        <button class="tab" data-cat="Iced Coffee">Iced Coffee</button>
+        <button class="tab" data-cat="Coffee Blended">Coffee Blended</button>
+        <button class="tab" data-cat="Non-Coffee Blended">Non-Coffee Blended</button>
+        <button class="tab" data-cat="Milkshakes">Milkshakes</button>
+        <button class="tab" data-cat="Fresh Juice">Fresh Juice</button>
+        <button class="tab" data-cat="Refreshers">Refreshers</button>
+        <button class="tab" data-cat="Matcha">Matcha</button>
+        <button class="tab" data-cat="Tea">Tea</button>
+        <button class="tab" data-cat="Breakfast">Breakfast</button>
+        <button class="tab" data-cat="Desserts">Desserts</button>
+        <button class="tab" data-cat="Extras">Extras</button>
+      </div>
+    </div>
+    <div class="menu-grid" id="menuGrid"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-section reveal" id="about">
     <div class="about-inner">
-      <div class="about-text">
-        <span class="about-eyebrow">Our Story</span>
-        <h2 class="about-title">More than a cup of coffee</h2>
+      <div class="about-brand">
+        <div class="about-logo-mark">
+          <img src="athar-logo-brown-t.png" alt="ATHAR" class="about-logo-img">
+        </div>
+        <div class="about-arabic-block">
+          <p>كل قعدة لها ذكرى</p>
+          <p>وكل ذكرى لها اثر</p>
+        </div>
+        <p class="about-est">Est. 2020 · Cairo</p>
+      </div>
+      <div class="about-content">
+        <p class="eyebrow">Our Story</p>
+        <h2>More than a cup<br>of coffee</h2>
         <p>ATHAR was born from a passion for quality and a love for community. We believe every visit should feel like a
           warm embrace — from your first sip to your last bite.</p>
         <p>We source our beans with care, craft our drinks with precision, and serve everything with genuine
           hospitality. Welcome to ATHAR — your second home.</p>
-      </div>
-      <div class="about-stats">
-        <div class="stat"><span class="stat-num">40+</span><span class="stat-label">Menu Items</span></div>
-        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Fresh Daily</span></div>
-        <div class="stat"><span class="stat-num">8am</span><span class="stat-label">Every Morning</span></div>
+        <div class="about-stats">
+          <div class="stat"><span class="stat-num">40+</span><span class="stat-label">Menu Items</span></div>
+          <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Fresh Daily</span></div>
+          <div class="stat"><span class="stat-num">8am</span><span class="stat-label">Every Morning</span></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SOCIAL / CONTACT SECTION -->
-  <section class="social-section" id="contact">
-    <div class="social-inner">
-      <div class="social-logo-wrap">
-        <img src="athar-logo-light.png" alt="ATHAR" class="social-logo" />
-        <p class="social-tagline">Your favourite neighbourhood café<br />Open daily 8am – 2am</p>
+  <!-- CONTACT -->
+  <section class="contact-section reveal" id="contact">
+    <div class="contact-inner">
+      <div class="contact-brand">
+        <img src="athar-logo-light-t.png" alt="ATHAR" class="contact-logo-img">
+        <p>Your favourite neighbourhood café</p>
       </div>
-      <div class="social-divider-v"></div>
-      <div class="social-links">
-        <a href="https://www.instagram.com/atharcafe.eg" target="_blank" class="social-card sc-instagram">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" />
-              <circle cx="12" cy="12" r="4" />
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-            </svg>
-          </div>
-          <div class="sc-text">
-            <span class="sc-label">Instagram</span>
-            <span class="sc-handle">@atharcafe.eg</span>
-          </div>
-          <span class="sc-arrow">↗</span>
+      <div class="contact-links">
+        <a href="https://www.instagram.com/atharcafe.eg" target="_blank" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="5" />
+            <circle cx="12" cy="12" r="5" />
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+          </svg>
+          <div><span class="cl-platform">Instagram</span><span class="cl-handle">@atharcafe.eg</span></div>
+          <span class="cl-arrow">↗</span>
         </a>
-        <a href="https://www.facebook.com/atharcafeeg/" target="_blank" class="social-card sc-facebook">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-            </svg>
-          </div>
-          <div class="sc-text">
-            <span class="sc-label">Facebook</span>
-            <span class="sc-handle">atharcafeeg</span>
-          </div>
-          <span class="sc-arrow">↗</span>
+        <a href="https://www.facebook.com/atharcafeeg/" target="_blank" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+          </svg>
+          <div><span class="cl-platform">Facebook</span><span class="cl-handle">atharcafeeg</span></div>
+          <span class="cl-arrow">↗</span>
         </a>
         <a href="https://www.google.com/maps/place/Athar+Caf%C3%A9/@29.8477397,31.3371203,17z" target="_blank"
-          class="social-card sc-maps">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M12 22s-8-6.5-8-13a8 8 0 1 1 16 0c0 6.5-8 13-8 13z" />
-              <circle cx="12" cy="9" r="3" />
-            </svg>
-          </div>
-          <div class="sc-text">
-            <span class="sc-label">Find Us</span>
-            <span class="sc-handle">Open in Google Maps</span>
-          </div>
-          <span class="sc-arrow">↗</span>
+          class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+            <circle cx="12" cy="9" r="2.5" />
+          </svg>
+          <div><span class="cl-platform">Find Us</span><span class="cl-handle">Open in Google Maps</span></div>
+          <span class="cl-arrow">↗</span>
         </a>
-        <a href="tel:+201029980416" class="social-card sc-phone">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path
-                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 5.95 5.95l.87-.87a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-            </svg>
-          </div>
-          <div class="sc-text">
-            <span class="sc-label">Call Us</span>
-            <span class="sc-handle">+20 10 2998 0416</span>
-          </div>
-          <span class="sc-arrow">↗</span>
+        <a href="tel:+201029980416" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path
+              d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.06 1.2 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" />
+          </svg>
+          <div><span class="cl-platform">Call Us</span><span class="cl-handle">+20 10 2998 0416</span></div>
+          <span class="cl-arrow">↗</span>
         </a>
       </div>
     </div>
-    <div class="footer-copy">© 2026 ATHAR Café · All rights reserved</div>
   </section>
 
-  <script src="app.js"></script>
+  <footer>
+    <p>© 2026 ATHAR Café · All rights reserved</p>
+  </footer>
+  <button id="backToTop" class="back-top" aria-label="Back to top">↑</button>
+
+  <script src="script.js"></script>
+  <script src="three-scene.js"></script>
+  <script src="effects-3d.js"></script>
 </body>
 
 </html>
